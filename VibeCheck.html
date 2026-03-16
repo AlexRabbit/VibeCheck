@@ -367,6 +367,44 @@
       background: rgba(233, 30, 140, 0.18);
       transform: translateY(-1px);
     }
+    .btn-delete-section {
+      flex-shrink: 0;
+      padding: 0.35em 0.65em;
+      font-size: 0.8rem;
+      font-family: 'SF Pro Display', -apple-system, sans-serif;
+      font-weight: 600;
+      color: #c62828;
+      background: rgba(198, 40, 40, 0.1);
+      border: 1px solid rgba(198, 40, 40, 0.3);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-delete-section:hover {
+      background: rgba(198, 40, 40, 0.2);
+      transform: translateY(-1px);
+    }
+    .btn-clean-all {
+      background: rgba(198, 40, 40, 0.12);
+      border-color: rgba(198, 40, 40, 0.35);
+      color: #c62828;
+      font-weight: 600;
+    }
+    .btn-clean-all:hover {
+      background: rgba(198, 40, 40, 0.22);
+    }
+    body.theme-dark .btn-delete-section {
+      color: #ef5350;
+      background: rgba(239, 83, 80, 0.15);
+      border-color: rgba(239, 83, 80, 0.4);
+    }
+    body.theme-dark .btn-delete-section:hover { background: rgba(239, 83, 80, 0.25); }
+    body.theme-dark .btn-clean-all {
+      background: rgba(239, 83, 80, 0.15);
+      border-color: rgba(239, 83, 80, 0.35);
+      color: #ef5350;
+    }
+    body.theme-dark .btn-clean-all:hover { background: rgba(239, 83, 80, 0.25); }
     .sidebar-attribution {
       font-size: 0.8rem;
       color: var(--ink-muted);
@@ -730,13 +768,15 @@
       animation: fadeUp 0.6s 0.3s var(--ease-out) backwards;
     }
 
-    .footer .footer-text {
+    .footer .footer-block {
       flex: 1;
+      min-width: 0;
+      max-width: 56rem;
     }
-
-    .footer .github-link {
-      margin-left: auto;
-    }
+    .footer .footer-title { font-weight: 700; margin: 0 0 0.5rem; }
+    .footer .footer-block p { margin: 0.35em 0; line-height: 1.5; }
+    .footer .footer-repo { margin-top: 0.75rem; }
+    .footer .footer-attribution { margin: 1rem 0 0; font-size: 0.85rem; }
 
     .footer a {
       color: var(--bubblegum);
@@ -790,6 +830,29 @@
       background: rgba(233, 30, 140, 0.25);
       transform: translateY(-1px);
     }
+    .btn-prompt {
+      flex-shrink: 0;
+      padding: 0.35em 0.6em;
+      font-size: 0.8rem;
+      font-weight: 600;
+      font-family: 'SF Pro Display', -apple-system, sans-serif;
+      border: 1px solid rgba(233, 30, 140, 0.35);
+      border-radius: 6px;
+      background: rgba(233, 30, 140, 0.12);
+      color: var(--bubblegum);
+      cursor: pointer;
+      transition: opacity 0.2s, background 0.2s, transform 0.2s var(--ease-spring);
+    }
+    .btn-prompt:hover {
+      background: rgba(233, 30, 140, 0.22);
+      transform: translateY(-1px);
+    }
+    body.theme-dark .btn-prompt {
+      color: var(--gold);
+      background: rgba(212, 168, 75, 0.15);
+      border-color: rgba(212, 168, 75, 0.4);
+    }
+    body.theme-dark .btn-prompt:hover { background: rgba(212, 168, 75, 0.25); }
 
     .edit-panel {
       position: sticky;
@@ -938,6 +1001,7 @@
     <aside class="sidebar">
       <div class="sidebar-title">Sections</div>
       <div class="sidebar-actions">
+        <button type="button" class="btn btn-clean-all" id="btnCleanAll" title="Remove all sections and start fresh">Clean all</button>
         <input type="file" id="openChecklistInput" accept=".html" aria-hidden="true">
         <button type="button" class="btn" id="btnOpenChecklist">Open checklist</button>
         <button type="button" class="btn btn-save" id="btnSaveChecklist">Save checklist</button>
@@ -1032,6 +1096,7 @@
       <div class="section-header">
         <h2 class="section-title"><span class="num">1</span> 🌐 Websites</h2>
         <button type="button" class="btn-clear-section" aria-label="Clear checks in this section">Clear</button>
+        <button type="button" class="btn-delete-section" aria-label="Delete this entire section">Delete section</button>
       </div>
       <p class="section-note">13 phases in order. Replace [PROJECT TYPE] with “website”. Use the prompts below to vibecode each step.</p>
 
@@ -1218,6 +1283,7 @@ Add dark/light mode toggle that respects system preference for my website.</pre>
       <div class="section-header">
         <h2 class="section-title"><span class="num">2</span> 📱 Webapps</h2>
         <button type="button" class="btn-clear-section" aria-label="Clear checks in this section">Clear</button>
+        <button type="button" class="btn-delete-section" aria-label="Delete this entire section">Delete section</button>
       </div>
       <p class="section-note">13 phases in order. Replace [PROJECT TYPE] with “webapp”. Use the prompts below to vibecode each step.</p>
 
@@ -1404,6 +1470,7 @@ Add PWA + push notifications and export to PDF/CSV for my webapp.</pre><button t
       <div class="section-header">
         <h2 class="section-title"><span class="num">3</span> 🖥️ Windows apps</h2>
         <button type="button" class="btn-clear-section" aria-label="Clear checks in this section">Clear</button>
+        <button type="button" class="btn-delete-section" aria-label="Delete this entire section">Delete section</button>
       </div>
       <p class="section-note">13 phases in order. Replace [PROJECT TYPE] with “Windows app”. Use the prompts below to vibecode each step.</p>
 
@@ -1590,6 +1657,7 @@ Add auto-start on boot option and drag-and-drop file support.</pre><button type=
       <div class="section-header">
         <h2 class="section-title"><span class="num">4</span> 📜 Scripts</h2>
         <button type="button" class="btn-clear-section" aria-label="Clear checks in this section">Clear</button>
+        <button type="button" class="btn-delete-section" aria-label="Delete this entire section">Delete section</button>
       </div>
       <p class="section-note">13 phases in order. Replace [PROJECT TYPE] with “script”. Use the prompts below to vibecode each step.</p>
 
@@ -1724,6 +1792,7 @@ Add --version and update checker; help text that actually helps.</pre><button ty
       <div class="section-header">
         <h2 class="section-title"><span class="num">5</span> 🤖 Telegram bots</h2>
         <button type="button" class="btn-clear-section" aria-label="Clear checks in this section">Clear</button>
+        <button type="button" class="btn-delete-section" aria-label="Delete this entire section">Delete section</button>
       </div>
       <p class="section-note">13 phases in order. Replace [PROJECT TYPE] with “Telegram bot”. Use the prompts below to vibecode each step.</p>
 
@@ -1873,6 +1942,7 @@ Set up webhook vs polling; add admin commands and broadcast feature.</pre><butto
       <div class="section-header">
         <h2 class="section-title"><span class="num">6</span> 📲 Android apps</h2>
         <button type="button" class="btn-clear-section" aria-label="Clear checks in this section">Clear</button>
+        <button type="button" class="btn-delete-section" aria-label="Delete this entire section">Delete section</button>
       </div>
       <p class="section-note">13 phases in order. Replace [PROJECT TYPE] with “Android app”. Use the prompts below to vibecode each step.</p>
 
@@ -2024,14 +2094,22 @@ Prepare Play Store: app bundle, signing, ProGuard for my Android app.</pre><butt
   </main>
 
   <footer class="footer">
-    <span class="footer-text">Vibecoding Checklist · Save in <code>Checklist\</code> and tick per project</span>
-    <span class="github-link"><a href="https://github.com/AlexRabbit" target="_blank" rel="noopener">GitHub @AlexRabbit</a></span>
+    <div class="footer-block">
+      <p class="footer-title">🤝 Share your template (PR)</p>
+      <p>Customized VibeCheck for your stack or workflow? You can help other vibecheckers by sharing your HTML template.</p>
+      <p>Send a <strong>Pull Request</strong> with your saved <code>VibeCheck.html</code> (<strong>send a renamed version</strong>, e.g. <code>VibeCheck-Scripting-Workflow.html</code>) in the folder <strong>VIBING TEMPLATES</strong>.</p>
+      <p>We can collect templates for different stacks (e.g. React, Vue, Python scripts, Telegram bots) so others can <strong>Open checklist</strong> and start from your workflow.</p>
+      <p>If this helped you, consider starring the repo ⭐—and if you share a template, even better!</p>
+      <p class="footer-repo"><a href="https://github.com/AlexRabbit/VibeCheck" target="_blank" rel="noopener">github.com/AlexRabbit/VibeCheck</a></p>
+    </div>
+    <p class="footer-attribution">By <a href="https://github.com/AlexRabbit" target="_blank" rel="noopener">AlexRabbit</a></p>
   </footer>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
   <script>
+    // BACKWARDS COMPATIBILITY: Saved checklist HTML files must work forever. Do not remove/rename IDs, classes, or data attributes the script uses. Add new features only additively; check for element existence before use. See BACKWARDS-COMPATIBILITY.md in the repo.
     document.addEventListener('DOMContentLoaded', function runChecklist() {
       var themeSelect = document.getElementById('themeSelect');
       if (themeSelect) {
@@ -2122,14 +2200,46 @@ Prepare Play Store: app bundle, signing, ProGuard for my Android app.</pre><butt
 
       function addRemoveButtons() {
         document.querySelectorAll('.check-item').forEach(item => {
-          if (item.querySelector('.btn-remove')) return;
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = 'btn-remove';
-          btn.setAttribute('aria-label', 'Delete this item');
-          btn.textContent = 'Delete';
-          item.appendChild(btn);
+          if (!item.querySelector('.btn-prompt')) {
+            const promptBtn = document.createElement('button');
+            promptBtn.type = 'button';
+            promptBtn.className = 'btn-prompt';
+            promptBtn.setAttribute('aria-label', 'Add or edit prompt for this item');
+            promptBtn.textContent = 'Prompt';
+            var removeBtn = item.querySelector('.btn-remove');
+            if (removeBtn) item.insertBefore(promptBtn, removeBtn);
+            else item.appendChild(promptBtn);
+          }
+          if (!item.querySelector('.btn-remove')) {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'btn-remove';
+            btn.setAttribute('aria-label', 'Delete this item');
+            btn.textContent = 'Delete';
+            item.appendChild(btn);
+          }
         });
+      }
+
+      function addPromptForItem(checkItem) {
+        var next = checkItem.nextElementSibling;
+        if (next && next.classList && next.classList.contains('prompt-details')) {
+          next.open = true;
+          var box = next.querySelector('.prompt-box');
+          if (box) { box.focus(); }
+          return;
+        }
+        var details = document.createElement('details');
+        details.className = 'prompt-details';
+        details.innerHTML = '<summary>Prompt to send to AI</summary><pre class="prompt-box" contenteditable="true"></pre><button type="button" class="copy-prompt-btn">Copy</button>';
+        checkItem.parentNode.insertBefore(details, next);
+        var pre = details.querySelector('.prompt-box');
+        if (pre) {
+          pre.setAttribute('contenteditable', 'true');
+          details.open = true;
+          pre.focus();
+        }
+        save();
       }
 
       function ensureSectionClearButton(sectionEl) {
@@ -2140,16 +2250,47 @@ Prepare Play Store: app bundle, signing, ProGuard for my Android app.</pre><butt
         header.className = 'section-header';
         h2.parentNode.insertBefore(header, h2);
         header.appendChild(h2);
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'btn-clear-section';
-        btn.textContent = 'Clear';
-        btn.setAttribute('aria-label', 'Clear checks in this section');
-        header.appendChild(btn);
+        const clearBtn = document.createElement('button');
+        clearBtn.type = 'button';
+        clearBtn.className = 'btn-clear-section';
+        clearBtn.textContent = 'Clear';
+        clearBtn.setAttribute('aria-label', 'Clear checks in this section');
+        header.appendChild(clearBtn);
+        const delBtn = document.createElement('button');
+        delBtn.type = 'button';
+        delBtn.className = 'btn-delete-section';
+        delBtn.textContent = 'Delete section';
+        delBtn.setAttribute('aria-label', 'Delete this entire section');
+        header.appendChild(delBtn);
+      }
+
+      function ensureSectionDeleteButtons() {
+        document.querySelectorAll('.section-card').forEach(function(card) {
+          const header = card.querySelector('.section-header');
+          if (!header || header.querySelector('.btn-delete-section')) return;
+          const delBtn = document.createElement('button');
+          delBtn.type = 'button';
+          delBtn.className = 'btn-delete-section';
+          delBtn.textContent = 'Delete section';
+          delBtn.setAttribute('aria-label', 'Delete this entire section');
+          header.appendChild(delBtn);
+        });
       }
 
       function addSectionClearButtons() {
         document.querySelectorAll('.section-card').forEach(ensureSectionClearButton);
+        ensureSectionDeleteButtons();
+      }
+
+      function cleanAll() {
+        if (!confirm('Remove all sections and start fresh? This cannot be undone.')) return;
+        const main = document.querySelector('.main');
+        const nav = document.getElementById('quickNav');
+        const sel = document.getElementById('sectionSelect');
+        if (main) while (main.firstChild) main.removeChild(main.firstChild);
+        if (nav) nav.querySelectorAll('a[data-section-id]').forEach(function(a) { a.remove(); });
+        if (sel) while (sel.firstChild) sel.removeChild(sel.firstChild);
+        save();
       }
 
       function getSectionOrderFromNav() {
@@ -2222,6 +2363,9 @@ Prepare Play Store: app bundle, signing, ProGuard for my Android app.</pre><butt
       }
       initSectionDragDrop();
 
+      var btnCleanAll = document.getElementById('btnCleanAll');
+      if (btnCleanAll) btnCleanAll.addEventListener('click', cleanAll);
+
       function addNewItem(sectionId, text) {
         const section = document.getElementById(sectionId);
         if (!section || !text.trim()) return;
@@ -2229,7 +2373,13 @@ Prepare Play Store: app bundle, signing, ProGuard for my Android app.</pre><butt
         const div = document.createElement('div');
         div.className = 'check-item';
         div.innerHTML = '<input type="checkbox" id="' + id + '"><label for="' + id + '">' + escapeHtml(text.trim()) + '</label>';
-        const btn = document.createElement('button');
+        var promptBtn = document.createElement('button');
+        promptBtn.type = 'button';
+        promptBtn.className = 'btn-prompt';
+        promptBtn.setAttribute('aria-label', 'Add or edit prompt for this item');
+        promptBtn.textContent = 'Prompt';
+        div.appendChild(promptBtn);
+        var btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'btn-remove';
         btn.setAttribute('aria-label', 'Delete this item');
@@ -2257,6 +2407,14 @@ Prepare Play Store: app bundle, signing, ProGuard for my Android app.</pre><butt
       load();
 
       document.body.addEventListener('click', (e) => {
+        const promptBtn = e.target.closest('.btn-prompt');
+        if (promptBtn) {
+          e.preventDefault();
+          e.stopPropagation();
+          const item = promptBtn.closest('.check-item');
+          if (item) addPromptForItem(item);
+          return;
+        }
         const removeBtn = e.target.closest('.btn-remove');
         if (removeBtn) {
           e.preventDefault();
@@ -2274,6 +2432,22 @@ Prepare Play Store: app bundle, signing, ProGuard for my Android app.</pre><butt
             card.querySelectorAll('input[type="checkbox"]').forEach(inp => { inp.checked = false; });
             save();
           }
+          return;
+        }
+        const deleteSectionBtn = e.target.closest('.btn-delete-section');
+        if (deleteSectionBtn) {
+          e.preventDefault();
+          e.stopPropagation();
+          const card = deleteSectionBtn.closest('.section-card');
+          if (!card) return;
+          var sectionId = card.id;
+          if (!sectionId) return;
+          card.remove();
+          var navLink = document.querySelector('#quickNav a[data-section-id="' + sectionId + '"]');
+          if (navLink) navLink.remove();
+          var opt = document.querySelector('#sectionSelect option[value="' + sectionId + '"]');
+          if (opt) opt.remove();
+          save();
           return;
         }
       });
