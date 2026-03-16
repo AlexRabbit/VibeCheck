@@ -12,8 +12,8 @@ If this helped you, consider starring the repo ⭐
 <p align="center">
   <code>🌐</code> <code>📱</code> <code>🖥️</code> <code>📜</code> <code>🤖</code> <code>📲</code>
 </p>
-    <img src="./previews/01.jpg" width="100%" alt="UIR" />
-    <img src="./previews/02.jpg" width="100%" alt="UIR" />
+    <img src="https://raw.githubusercontent.com/AlexRabbit/VibeCheck/refs/heads/main/previews/01.jpg" width="100%" alt="UIR" />
+    <img src="https://raw.githubusercontent.com/AlexRabbit/VibeCheck/refs/heads/main/previews/02.jpg" width="100%" alt="UIR" />
 
 
   
