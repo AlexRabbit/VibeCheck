@@ -12,7 +12,11 @@ If this helped you, consider starring the repo ⭐
 <p align="center">
   <code>🌐</code> <code>📱</code> <code>🖥️</code> <code>📜</code> <code>🤖</code> <code>📲</code>
 </p>
+    <img src="./previews/01.jpg" width="100%" alt="UIR" />
+    <img src="./previews/02.jpg" width="100%" alt="UIR" />
 
+
+  
 One place to tick off everything before you ship. **Everything can be customized, edited, and saved**—tweak prompts, reorder sections, add your own items, and **build your own workflow**. Glass-style UI, **light/dark themes**, **drag-and-drop** sections, and copy-paste AI prompts—so you can vibecode without missing a step.
 
 ---
