@@ -1,0 +1,2345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vibecoding Checklist</title>
+  <style>
+    @font-face {
+      font-family: 'SF Pro Display';
+      src: url('https://raw.githubusercontent.com/sahibjotsaggu/San-Francisco-Pro-Fonts/master/SF-Pro-Display-Regular.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'SF Pro Display';
+      src: url('https://raw.githubusercontent.com/sahibjotsaggu/San-Francisco-Pro-Fonts/master/SF-Pro-Display-Bold.otf') format('opentype');
+      font-weight: 700;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'SF Pro Display';
+      src: url('https://raw.githubusercontent.com/sahibjotsaggu/San-Francisco-Pro-Fonts/master/SF-Pro-Display-Medium.otf') format('opentype');
+      font-weight: 500;
+      font-style: normal;
+    }
+    :root {
+      --frost: #f8f9fc;
+      --frost-warm: #fdf6f8;
+      --bubblegum: #e91e8c;
+      --bubblegum-soft: #f8b4d9;
+      --bubblegum-glow: rgba(233, 30, 140, 0.25);
+      --ink: #1a1625;
+      --ink-muted: #4a4556;
+      --glass-bg: rgba(255, 255, 255, 0.28);
+      --glass-border: rgba(255, 255, 255, 0.6);
+      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+      --blur: 28px;
+      --radius: 20px;
+      --radius-sm: 12px;
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 400;
+      color: var(--ink);
+      background: 
+        linear-gradient(180deg, #fafbff 0%, var(--frost) 50%, #f8f9fc 100%);
+      background-attachment: fixed;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .page-wrap {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* —— Moving bubble vectors (background) —— */
+    .bubbles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5), rgba(248,184,217,0.2));
+      animation: floatBubble linear infinite;
+    }
+    .bubble:nth-child(1) { width: 220px; height: 220px; left: 8%; top: 15%; animation-duration: 24s; animation-delay: 0s; }
+    .bubble:nth-child(2) { width: 180px; height: 180px; left: 70%; top: 25%; animation-duration: 28s; animation-delay: -8s; }
+    .bubble:nth-child(3) { width: 260px; height: 260px; left: 40%; top: 55%; animation-duration: 30s; animation-delay: -12s; }
+    .bubble:nth-child(4) { width: 200px; height: 200px; left: 75%; top: 70%; animation-duration: 26s; animation-delay: -4s; }
+    @keyframes floatBubble {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(30px, -40px) scale(1.05); }
+      50% { transform: translate(-20px, 20px) scale(0.95); }
+      75% { transform: translate(15px, 30px) scale(1.02); }
+    }
+
+    /* —— Glassmorphism 2.0 (more glass, frost white) —— */
+    .glass {
+      background: rgba(255, 255, 255, 0.42);
+      backdrop-filter: blur(36px) saturate(1.1);
+      -webkit-backdrop-filter: blur(36px) saturate(1.1);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: var(--radius);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255,255,255,0.85);
+      transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out), border-color 0.4s;
+    }
+
+    .glass:hover {
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(255,255,255,0.9), inset 0 1px 0 rgba(255,255,255,0.95);
+      border-color: rgba(255, 255, 255, 0.95);
+    }
+
+    /* —— Header: archival index feel —— */
+    .masthead {
+      margin-bottom: clamp(2rem, 6vw, 3.5rem);
+      animation: fadeUp 0.8s var(--ease-out) backwards;
+    }
+    .masthead-head { text-align: left; }
+    @media (max-width: 500px) {
+      .masthead-wrap { flex-direction: column; align-items: stretch; }
+      .theme-select-wrap { justify-content: flex-end; }
+    }
+
+    .masthead h1 {
+      font-family: 'SF Pro Display', -apple-system, sans-serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      margin: 0 0 0.25em;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #e91e8c 0%, #f8b4d9 50%, #e91e8c 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .masthead .tagline {
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      color: var(--ink-muted);
+      font-weight: 300;
+      max-width: 42ch;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+    .masthead-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .masthead-head {
+      flex: 1;
+      min-width: 0;
+    }
+    .theme-select-wrap {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .theme-select-wrap label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--ink-muted);
+    }
+    .theme-select-wrap select {
+      padding: 0.4em 0.75em;
+      font-size: 0.85rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      color: var(--ink);
+      cursor: pointer;
+    }
+    body.theme-dark .theme-select-wrap select {
+      background: rgba(255,255,255,0.1);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* —— Dark theme: black + yellow-gold —— */
+    body.theme-dark {
+      --gold: #d4a84b;
+      --frost: #1a1a1e;
+      --frost-warm: #16161a;
+      --bubblegum: #d4a84b;
+      --bubblegum-soft: #c9a227;
+      --bubblegum-glow: rgba(212, 168, 75, 0.3);
+      --ink: #e8e6e3;
+      --ink-muted: #a8a6a2;
+      --glass-bg: rgba(30, 30, 35, 0.6);
+      --glass-border: rgba(212, 168, 75, 0.25);
+    }
+    body.theme-dark {
+      background: linear-gradient(180deg, #0d0d0f 0%, #1a1a1e 50%, #141418 100%);
+    }
+    body.theme-dark .glass {
+      background: rgba(30, 30, 35, 0.7);
+      border-color: rgba(212, 168, 75, 0.2);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(212,168,75,0.08);
+    }
+    body.theme-dark .sidebar {
+      background: rgba(25, 25, 30, 0.8);
+      border-right-color: rgba(212, 168, 75, 0.2);
+    }
+    body.theme-dark .edit-panel {
+      background: rgba(30, 30, 35, 0.85);
+      border-color: rgba(212, 168, 75, 0.2);
+    }
+    body.theme-dark .sidebar-title,
+    body.theme-dark .nav-label,
+    body.theme-dark .section-title,
+    body.theme-dark .subsection-title,
+    body.theme-dark .prompt-details summary,
+    body.theme-dark .btn-clear-section,
+    body.theme-dark .btn-remove,
+    body.theme-dark .copy-prompt-btn,
+    body.theme-dark .sidebar-attribution a,
+    body.theme-dark .footer a,
+    body.theme-dark .masthead h1 {
+      color: #d4a84b !important;
+      -webkit-text-fill-color: #d4a84b;
+      background: none !important;
+      border-color: rgba(212, 168, 75, 0.4);
+    }
+    body.theme-dark .nav-label { -webkit-text-fill-color: #d4a84b; }
+    body.theme-dark .section-title .num { color: #d4a84b; }
+    body.theme-dark .btn-save {
+      background: #d4a84b;
+      color: #1a1a1e;
+    }
+    body.theme-dark .bubble {
+      background: radial-gradient(circle at 30% 30%, rgba(212,168,75,0.15), rgba(212,168,75,0.05));
+    }
+    /* Override pink gradients (must beat .quick-nav a .nav-label and .sidebar-title) */
+    body.theme-dark .quick-nav a .nav-label {
+      background: none !important;
+      -webkit-text-fill-color: #d4a84b !important;
+      color: #d4a84b !important;
+    }
+    body.theme-dark .sidebar .sidebar-title {
+      background: none !important;
+      -webkit-text-fill-color: #d4a84b !important;
+      color: #d4a84b !important;
+    }
+    /* Edit checklist bar: gold in dark mode (not pink) */
+    body.theme-dark .edit-panel h3 {
+      background: none !important;
+      -webkit-text-fill-color: #d4a84b !important;
+      color: #d4a84b !important;
+    }
+    /* Edit panel and theme selectors: dark inputs with light text */
+    body.theme-dark .edit-panel select,
+    body.theme-dark .edit-panel input[type="text"] {
+      background: rgba(40, 40, 48, 0.95);
+      border-color: rgba(212, 168, 75, 0.4);
+      color: #e8e6e3;
+    }
+    body.theme-dark .theme-select-wrap label {
+      color: #d4a84b;
+    }
+    /* Sidebar buttons: ensure light text */
+    body.theme-dark .sidebar .btn:not(.btn-save) {
+      color: #e8e6e3;
+      border-color: rgba(212, 168, 75, 0.35);
+      background: rgba(40, 40, 48, 0.8);
+    }
+    body.theme-dark .sidebar .btn:not(.btn-save):hover {
+      background: rgba(212, 168, 75, 0.2);
+      color: #d4a84b;
+    }
+
+    /* —— Sidebar: glass + frost —— */
+    .sidebar {
+      width: 280px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 1.25rem 0.75rem;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(40px) saturate(1.1);
+      -webkit-backdrop-filter: blur(40px) saturate(1.1);
+      border-right: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 4px 0 24px rgba(0, 0, 0, 0.03), inset 1px 0 0 rgba(255, 255, 255, 0.8);
+      animation: fadeUp 0.8s 0.1s var(--ease-out) backwards;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-title {
+      font-family: 'SF Pro Display', -apple-system, sans-serif;
+      font-weight: 800;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 0 0.75rem 0.6rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #e91e8c 0%, #f8b4d9 50%, #e91e8c 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .sidebar-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .sidebar-actions .btn {
+      width: 100%;
+      justify-content: center;
+    }
+    .sidebar-actions .btn-save {
+      background: var(--bubblegum);
+      color: white;
+      border: none;
+    }
+    input#openChecklistInput {
+      display: none;
+    }
+
+    .quick-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      flex: 1;
+    }
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .sidebar-footer .btn {
+      width: 100%;
+      justify-content: center;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.25rem;
+    }
+    .section-header .section-title {
+      margin: 0;
+      flex: 1;
+    }
+    .btn-clear-section {
+      flex-shrink: 0;
+      padding: 0.35em 0.65em;
+      font-size: 0.8rem;
+      font-family: 'SF Pro Display', -apple-system, sans-serif;
+      font-weight: 600;
+      color: var(--bubblegum);
+      background: rgba(233, 30, 140, 0.1);
+      border: 1px solid rgba(233, 30, 140, 0.25);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-clear-section:hover {
+      background: rgba(233, 30, 140, 0.18);
+      transform: translateY(-1px);
+    }
+    .sidebar-attribution {
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+    }
+    .sidebar-attribution a {
+      color: var(--bubblegum);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .sidebar-attribution a:hover { text-decoration: underline; }
+
+    .quick-nav a {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 0.75rem;
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      transition: background 0.25s, transform 0.2s var(--ease-spring), box-shadow 0.25s, border-color 0.25s;
+      cursor: grab;
+    }
+    .quick-nav a:active { cursor: grabbing; }
+    .quick-nav a.nav-dragging {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .quick-nav a.nav-drop-target {
+      box-shadow: inset 0 0 0 2px var(--bubblegum);
+    }
+    body.theme-dark .quick-nav a.nav-drop-target {
+      box-shadow: inset 0 0 0 2px var(--gold);
+    }
+    .nav-drag-handle {
+      cursor: grab;
+      padding: 0.2em 0.15em;
+      margin: -0.2em 0 -0.2em -0.15em;
+      opacity: 0.6;
+      font-size: 1em;
+      line-height: 1;
+      user-select: none;
+      -webkit-user-select: none;
+      flex-shrink: 0;
+    }
+    .nav-drag-handle:active { cursor: grabbing; }
+    .quick-nav a:hover .nav-drag-handle { opacity: 1; }
+    .quick-nav .sortable-ghost { opacity: 0.35; background: rgba(233,30,140,0.15); }
+    .quick-nav .sortable-chosen { background: rgba(255,255,255,0.25); }
+    body.theme-dark .quick-nav .sortable-ghost { background: rgba(212,168,75,0.2); }
+    body.theme-dark .quick-nav .sortable-chosen { background: rgba(212,168,75,0.15); }
+    .quick-nav .sortable-drag { opacity: 0.9; cursor: grabbing !important; }
+
+    .quick-nav a .nav-label {
+      background: linear-gradient(135deg, #e91e8c 0%, #f8b4d9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .quick-nav a .nav-emoji {
+      flex-shrink: 0;
+      transition: transform 0.2s var(--ease-spring);
+    }
+
+    .quick-nav a:hover {
+      background: rgba(255, 255, 255, 0.4);
+      border-color: rgba(233, 30, 140, 0.35);
+      transform: translateX(5px);
+      box-shadow: 0 6px 24px var(--bubblegum-glow);
+    }
+
+    .quick-nav a:hover .nav-label {
+      -webkit-text-fill-color: initial;
+      color: var(--ink);
+    }
+
+    .quick-nav a:hover .nav-emoji {
+      transform: scale(1.2);
+    }
+
+    .quick-nav a:active {
+      transform: translateX(3px);
+    }
+
+    .content-area {
+      flex: 1;
+      padding: clamp(1rem, 4vw, 2.5rem);
+      padding-bottom: 4rem;
+      min-width: 0;
+    }
+
+    @media (max-width: 900px) {
+      .page-wrap { flex-direction: column; }
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        padding: 0.75rem;
+      }
+      .quick-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+      }
+      .quick-nav a { flex: 1; min-width: 80px; text-align: center; }
+      .sidebar-title { display: none; }
+    }
+
+    /* —— Main: grid left/right (no long vertical scroll) —— */
+    .main {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+    @media (max-width: 900px) {
+      .main { grid-template-columns: 1fr; }
+    }
+
+    .section-card {
+      position: relative;
+      z-index: 1;
+      padding: clamp(1.25rem, 3vw, 1.75rem);
+      animation: cardEnter 0.7s var(--ease-out) backwards;
+      transition: transform 0.45s var(--ease-spring), box-shadow 0.45s var(--ease-out);
+    }
+    .section-card:nth-child(1)  { animation-delay: 0.05s; }
+    .section-card:nth-child(2)  { animation-delay: 0.1s; }
+    .section-card:nth-child(3)  { animation-delay: 0.15s; }
+    .section-card:nth-child(4)  { animation-delay: 0.2s; }
+    .section-card:nth-child(5)  { animation-delay: 0.25s; }
+    .section-card:nth-child(6)  { animation-delay: 0.3s; }
+    .section-card:nth-child(7)  { animation-delay: 0.35s; }
+    .section-card:nth-child(8)  { animation-delay: 0.4s; }
+    .section-card:nth-child(9)  { animation-delay: 0.45s; }
+    .section-card:nth-child(10) { animation-delay: 0.5s; }
+    .section-card:nth-child(11) { animation-delay: 0.55s; }
+    .section-card:nth-child(12) { animation-delay: 0.6s; }
+    .section-card:nth-child(13) { animation-delay: 0.65s; }
+    .section-card:nth-child(14) { animation-delay: 0.7s; }
+    .section-card:nth-child(15) { animation-delay: 0.75s; }
+    .section-card:nth-child(16) { animation-delay: 0.8s; }
+    .section-card:nth-child(17) { animation-delay: 0.85s; }
+    .section-card:nth-child(18) { animation-delay: 0.9s; }
+    .section-card:nth-child(19) { animation-delay: 0.95s; }
+
+    .section-card:hover {
+      z-index: 2;
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(255,255,255,0.85), inset 0 1px 0 rgba(255,255,255,0.9);
+    }
+    .content-area > * { position: relative; z-index: 0; }
+    .content-area > .edit-panel { z-index: 100; }
+
+    @keyframes cardEnter {
+      from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .section-title {
+      font-family: 'SF Pro Display', -apple-system, sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 0 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(233, 30, 140, 0.25);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, #e91e8c 0%, #f8b4d9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-title .num {
+      -webkit-text-fill-color: initial;
+      color: var(--bubblegum);
+      font-weight: 700;
+      font-size: 0.9em;
+    }
+
+    .subsection-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--bubblegum);
+      margin: 1.1rem 0 0.4rem;
+      padding-bottom: 0.25rem;
+      border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+    }
+    .subsection-title:first-of-type { margin-top: 0; }
+
+    .section-note {
+      font-size: 0.9rem;
+      color: var(--ink-muted);
+      margin: -0.5rem 0 1rem;
+      font-style: italic;
+      line-height: 1.4;
+    }
+
+    /* —— Checklist rows: micro-interaction —— */
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      transition: background 0.2s, padding-left 0.2s var(--ease-spring);
+    }
+    .check-item label { flex: 1; min-width: 0; }
+
+    .check-item:last-child { border-bottom: none; }
+    .check-item:hover { background: rgba(255,255,255,0.4); padding-left: 4px; }
+
+    .check-item input[type="checkbox"] {
+      appearance: none;
+      width: 1.35em;
+      height: 1.35em;
+      border: 2px solid var(--bubblegum-soft);
+      border-radius: 6px;
+      flex-shrink: 0;
+      margin-top: 0.15em;
+      cursor: pointer;
+      transition: background 0.25s var(--ease-spring), border-color 0.2s, transform 0.2s var(--ease-spring), box-shadow 0.2s;
+    }
+
+    .check-item input[type="checkbox"]:hover {
+      border-color: var(--bubblegum);
+      transform: scale(1.08);
+    }
+
+    .check-item input[type="checkbox"]:checked {
+      background: var(--bubblegum);
+      border-color: var(--bubblegum);
+      box-shadow: 0 0 0 2px var(--bubblegum-glow);
+    }
+
+    .check-item input[type="checkbox"]:checked::after {
+      content: '';
+      display: block;
+      width: 0.35em;
+      height: 0.65em;
+      margin: 0.15em 0 0 0.4em;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      animation: checkPop 0.35s var(--ease-spring);
+    }
+
+    .check-item label {
+      cursor: pointer;
+      font-size: 0.95rem;
+      line-height: 1.45;
+      color: var(--ink);
+      flex: 1;
+    }
+
+    .check-item input:checked + label {
+      color: var(--ink-muted);
+      text-decoration: line-through;
+      text-decoration-color: var(--bubblegum-soft);
+    }
+
+    .platforms {
+      display: inline-flex;
+      gap: 0.25rem;
+      margin-left: 0.35rem;
+      font-size: 0.7rem;
+      color: var(--ink-muted);
+      opacity: 0.9;
+    }
+
+    .platforms span { font-weight: 500; }
+
+    /* —— List sections (no table) —— */
+    .simple-list .check-item { border-bottom: none; }
+    .simple-list .check-item label { font-weight: 500; }
+
+    /* —— Examples / code —— */
+    .examples {
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      background: rgba(255,255,255,0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,0.7);
+      border-left: 3px solid var(--bubblegum);
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+      line-height: 1.5;
+    }
+
+    .examples strong { color: var(--ink); }
+    .examples code { font-size: 0.9em; color: var(--bubblegum); background: rgba(233,30,140,0.08); padding: 0.1em 0.35em; border-radius: 4px; }
+    .examples a { color: var(--bubblegum); text-decoration: none; font-weight: 500; }
+    .examples a:hover { text-decoration: underline; }
+
+    /* —— Quick reference —— */
+    .quick-ref {
+      margin-top: 2rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--blur));
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      animation: fadeUp 0.6s 0.2s var(--ease-out) backwards;
+    }
+
+    .quick-ref h2 {
+      font-family: 'SF Pro Display', -apple-system, sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 0 0 0.75rem;
+      background: linear-gradient(135deg, #e91e8c 0%, #f8b4d9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .quick-ref ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .quick-ref li {
+      padding: 0.3rem 0;
+      font-size: 0.9rem;
+      color: var(--ink-muted);
+    }
+
+    .quick-ref li strong { color: var(--ink); }
+
+    /* —— Footer: GitHub on bottom right —— */
+    .footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-top: 2.5rem;
+      padding-top: 1rem;
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+      animation: fadeUp 0.6s 0.3s var(--ease-out) backwards;
+    }
+
+    .footer .footer-text {
+      flex: 1;
+    }
+
+    .footer .github-link {
+      margin-left: auto;
+    }
+
+    .footer a {
+      color: var(--bubblegum);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s, text-shadow 0.2s;
+    }
+
+    .footer a:hover {
+      color: var(--bubblegum);
+      text-shadow: 0 0 20px var(--bubblegum-glow);
+    }
+
+    /* —— Actions bar —— */
+    .btn {
+      padding: 0.5em 1em;
+      font-family: 'SF Pro Display', -apple-system, sans-serif;
+      font-size: 0.9rem;
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-sm);
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--blur));
+      color: var(--ink);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.2s var(--ease-spring), box-shadow 0.2s;
+    }
+
+    .btn:hover {
+      background: rgba(255,255,255,0.9);
+      color: var(--bubblegum);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .btn:active { transform: translateY(0); }
+
+    .btn-remove {
+      flex-shrink: 0;
+      padding: 0.35em 0.6em;
+      font-size: 0.8rem;
+      font-weight: 600;
+      font-family: 'SF Pro Display', -apple-system, sans-serif;
+      border: 1px solid rgba(233, 30, 140, 0.35);
+      border-radius: 6px;
+      background: rgba(233, 30, 140, 0.12);
+      color: var(--bubblegum);
+      cursor: pointer;
+      transition: opacity 0.2s, background 0.2s, transform 0.2s var(--ease-spring);
+    }
+    .btn-remove:hover {
+      background: rgba(233, 30, 140, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .edit-panel {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      margin-bottom: 1.5rem;
+      padding: 1rem 1.25rem;
+      background: rgba(255, 255, 255, 0.42);
+      backdrop-filter: blur(36px) saturate(1.1);
+      -webkit-backdrop-filter: blur(36px) saturate(1.1);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: var(--radius);
+      animation: fadeUp 0.8s 0.05s var(--ease-out) backwards;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      align-items: start;
+    }
+    @media (max-width: 700px) {
+      .edit-panel { grid-template-columns: 1fr; }
+    }
+    .edit-panel h3 {
+      font-family: 'SF Pro Display', -apple-system, sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 0 0 0.75rem;
+      background: linear-gradient(135deg, #e91e8c 0%, #f8b4d9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      grid-column: 1 / -1;
+    }
+    .edit-panel .edit-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .edit-panel .edit-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .edit-panel .edit-row-add-section {
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .edit-panel .edit-row-add-section select {
+      max-width: 180px;
+    }
+    .edit-panel select, .edit-panel input[type="text"] {
+      padding: 0.45em 0.75em;
+      font-family: 'SF Pro Display', -apple-system, sans-serif;
+      font-size: 0.9rem;
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-sm);
+      background: rgba(255,255,255,0.7);
+      color: var(--ink);
+    }
+    .edit-panel input[type="text"] { min-width: 200px; flex: 1; }
+    .btn-save {
+      margin-left: auto;
+      padding: 0.5em 1.25em;
+      background: var(--bubblegum);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: 'SF Pro Display', -apple-system, sans-serif;
+      font-weight: 500;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: transform 0.2s var(--ease-spring), box-shadow 0.2s, opacity 0.2s;
+    }
+    .btn-save:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--bubblegum-glow);
+    }
+
+    /* —— Animations —— */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes checkPop {
+      0% { transform: rotate(45deg) scale(0); }
+      50% { transform: rotate(45deg) scale(1.2); }
+      100% { transform: rotate(45deg) scale(1); }
+    }
+
+    .prompt-details {
+      margin: 0.25rem 0 0.75rem 1.5rem;
+      font-size: 0.8rem;
+    }
+    .prompt-details summary {
+      cursor: pointer;
+      color: var(--bubblegum);
+      font-weight: 600;
+    }
+    .prompt-box {
+      margin: 0.4rem 0 0;
+      padding: 0.6rem 0.75rem;
+      background: rgba(0,0,0,0.06);
+      border-radius: 8px;
+      border-left: 3px solid var(--bubblegum);
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: ui-monospace, monospace;
+      font-size: 0.78rem;
+      line-height: 1.4;
+      max-height: 12em;
+      overflow-y: auto;
+      outline: none;
+    }
+    .prompt-box[contenteditable]:focus {
+      background: rgba(0,0,0,0.08);
+      box-shadow: 0 0 0 2px var(--bubblegum-glow);
+    }
+    .copy-prompt-btn {
+      margin-top: 0.35rem;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
+      background: rgba(233,30,140,0.15);
+      color: var(--bubblegum);
+      border: 1px solid rgba(233,30,140,0.3);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .copy-prompt-btn:hover { background: rgba(233,30,140,0.25); }
+  </style>
+</head>
+<body>
+  <div class="bubbles" aria-hidden="true">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+  </div>
+  <div class="page-wrap">
+    <aside class="sidebar">
+      <div class="sidebar-title">Sections</div>
+      <div class="sidebar-actions">
+        <input type="file" id="openChecklistInput" accept=".html" aria-hidden="true">
+        <button type="button" class="btn" id="btnOpenChecklist">Open checklist</button>
+        <button type="button" class="btn btn-save" id="btnSaveChecklist">Save checklist</button>
+      </div>
+      <nav class="quick-nav" id="quickNav" aria-label="Sections (drag to reorder)">
+        <a href="#s1" draggable="false" data-section-id="s1"><span class="nav-drag-handle" draggable="true" aria-label="Drag to reorder">⋮⋮</span><span class="nav-emoji">🌐</span><span class="nav-label">1 Websites</span></a>
+        <a href="#s2" draggable="false" data-section-id="s2"><span class="nav-drag-handle" draggable="true" aria-label="Drag to reorder">⋮⋮</span><span class="nav-emoji">📱</span><span class="nav-label">2 Webapps</span></a>
+        <a href="#s3" draggable="false" data-section-id="s3"><span class="nav-drag-handle" draggable="true" aria-label="Drag to reorder">⋮⋮</span><span class="nav-emoji">🖥️</span><span class="nav-label">3 Windows apps</span></a>
+        <a href="#s4" draggable="false" data-section-id="s4"><span class="nav-drag-handle" draggable="true" aria-label="Drag to reorder">⋮⋮</span><span class="nav-emoji">📜</span><span class="nav-label">4 Scripts</span></a>
+        <a href="#s5" draggable="false" data-section-id="s5"><span class="nav-drag-handle" draggable="true" aria-label="Drag to reorder">⋮⋮</span><span class="nav-emoji">🤖</span><span class="nav-label">5 Telegram bots</span></a>
+        <a href="#s6" draggable="false" data-section-id="s6"><span class="nav-drag-handle" draggable="true" aria-label="Drag to reorder">⋮⋮</span><span class="nav-emoji">📲</span><span class="nav-label">6 Android apps</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <p class="sidebar-attribution">By <a href="https://github.com/AlexRabbit" target="_blank" rel="noopener">AlexRabbit</a></p>
+      </div>
+    </aside>
+
+    <div class="content-area">
+  <header class="masthead">
+    <div class="masthead-wrap">
+      <div class="masthead-head">
+        <h1>Vibecoding Checklist</h1>
+        <p class="tagline">A master checklist for Vibecoding</p>
+      </div>
+      <div class="theme-select-wrap">
+        <label for="themeSelect">Theme</label>
+        <select id="themeSelect" aria-label="Theme">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <div class="edit-panel">
+    <h3>Edit checklist</h3>
+    <div class="edit-col">
+      <div class="edit-row edit-row-add-section">
+        <label>New section</label>
+        <input type="text" id="newSectionName" placeholder="Section name…">
+        <label for="newSectionEmoji">Emoji</label>
+        <select id="newSectionEmoji">
+          <option value="📋">📋 Clipboard</option>
+          <option value="🧭">🧭 Compass</option>
+          <option value="⚙️">⚙️ Settings</option>
+          <option value="📜">📜 Scroll</option>
+          <option value="🎨">🎨 Palette</option>
+          <option value="📁">📁 Folder</option>
+          <option value="📥">📥 Inbox</option>
+          <option value="📖">📖 Book</option>
+          <option value="🪟">🪟 Window</option>
+          <option value="🤖">🤖 Robot</option>
+          <option value="🖥️">🖥️ Desktop</option>
+          <option value="📱">📱 Phone</option>
+          <option value="🔌">🔌 Plug</option>
+          <option value="⏱️">⏱️ Timer</option>
+          <option value="🌐">🌐 Globe</option>
+          <option value="🛡️">🛡️ Shield</option>
+          <option value="📦">📦 Package</option>
+          <option value="📌">📌 Pin</option>
+          <option value="✨">✨ Sparkles</option>
+          <option value="🚀">🚀 Rocket</option>
+          <option value="🔧">🔧 Wrench</option>
+          <option value="💡">💡 Lightbulb</option>
+          <option value="✅">✅ Check</option>
+          <option value="🎯">🎯 Target</option>
+          <option value="🔒">🔒 Lock</option>
+          <option value="📝">📝 Memo</option>
+        </select>
+        <button type="button" class="btn" id="btnAddSection">Add section</button>
+      </div>
+    </div>
+    <div class="edit-col">
+      <div class="edit-row">
+        <label for="sectionSelect">Section</label>
+        <select id="sectionSelect">
+          <option value="s1">1 — Websites</option>
+          <option value="s2">2 — Webapps</option>
+          <option value="s3">3 — Windows apps</option>
+          <option value="s4">4 — Scripts</option>
+          <option value="s5">5 — Telegram bots</option>
+          <option value="s6">6 — Android apps</option>
+        </select>
+        <input type="text" id="newItemText" placeholder="New item text…">
+        <button type="button" class="btn" id="btnAddItem">Add item</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="main">
+    <section class="section-card glass" id="s1">
+      <div class="section-header">
+        <h2 class="section-title"><span class="num">1</span> 🌐 Websites</h2>
+        <button type="button" class="btn-clear-section" aria-label="Clear checks in this section">Clear</button>
+      </div>
+      <p class="section-note">13 phases in order. Replace [PROJECT TYPE] with “website”. Use the prompts below to vibecode each step.</p>
+
+      <h3 class="subsection-title">Phase 1: Project Naming & Branding</h3>
+      <div class="check-item"><input type="checkbox" id="c1-1"><label for="c1-1">Choose a catchy, memorable name + tagline; check domain/App Store availability</label><button type="button" class="btn-remove" aria-label="Delete this item">Delete</button></div>
+      <div class="check-item"><input type="checkbox" id="c1-2"><label for="c1-2">Create full branding kit (colors, fonts, logo concept, favicon/icon)</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-3"><label for="c1-3">Decide tone of voice & writing style for the whole project</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-4"><label for="c1-4">Reserve all needed usernames/domains right now</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Vibecode the perfect name, tagline and short description for my website. Idea: [PASTE YOUR IDEA]. Give me 5 name options, check if domain .com and social handles are likely free, and suggest a vibe-matching color palette.
+
+Generate a complete branding kit for my website named [name]. Include hex colors, Google fonts, logo text description, favicon specs and dark/light versions.
+
+Define the exact tone of voice and writing style guide for my website. Give examples for buttons, errors and README.
+
+List every username, domain, package name and handle I need to register today for my website named [name] and tell me the exact places to do it.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 2: README & Initial Documentation</h3>
+      <div class="check-item"><input type="checkbox" id="c1-5"><label for="c1-5">Write a beautiful, fun README.md with badges and screenshot placeholders</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-6"><label for="c1-6">Add CONTRIBUTING.md + CODE_OF_CONDUCT.md</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-7"><label for="c1-7">Create project roadmap / todo list in README</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-8"><label for="c1-8">Write one-paragraph “What this project is” for the top of every file</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Vibecode a complete README.md for my website. Name: [name]. Tech stack: [list]. Make it exciting, add badges, quick start, and future roadmap section.
+
+Generate professional yet vibey CONTRIBUTING.md and CODE_OF_CONDUCT.md for my website project.
+
+Add a clean 'Roadmap & Future Vibes' section to my README for website with 8–10 realistic features.
+
+Give me the exact 2-line comment I should put at the top of every file in my website project.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 3: Project Setup & Initialization</h3>
+      <div class="check-item"><input type="checkbox" id="c1-9"><label for="c1-9">Initialize git + conventional commits + .gitignore perfect</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-10"><label for="c1-10">Scaffold project (create-react-app / Astro / Next / etc.) correctly</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-11"><label for="c1-11">Add license (MIT or GPL) + .github folder with issue templates</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-12"><label for="c1-12">Set up basic CI (GitHub Actions) skeleton</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Generate the perfect .gitignore and commitlint config for my website using [tech stack].
+
+Give me the exact terminal commands + best flags to initialize a new website project with [tech: React/Astro/Next/etc].
+
+Generate LICENSE.md and .github/ISSUE_TEMPLATE for my website.
+
+Create a basic GitHub Actions workflow for lint + test on my website.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 4: Environment & Settings</h3>
+      <div class="check-item"><input type="checkbox" id="c1-13"><label for="c1-13">Create .env.example + .env.local with all needed variables</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-14"><label for="c1-14">Set up config files (tailwind.config, vite.config, etc.)</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-15"><label for="c1-15">Add logging setup (console / winston / Sentry starter)</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-16"><label for="c1-16">Configure editor settings for this project</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">List and create .env.example with all necessary variables for my website (API keys, ports, URLs, etc).
+
+Vibecode the perfect config files for my website using [tech].
+
+Add pro logging setup for my website with different levels and colors.
+
+Generate .vscode/settings.json recommended settings for my website.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 5: Folder Structure & Architecture</h3>
+      <div class="check-item"><input type="checkbox" id="c1-17"><label for="c1-17">Create the cleanest possible folder structure</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-18"><label for="c1-18">Set up clean architecture / feature-based folders</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-19"><label for="c1-19">Add shared/utils/helpers folder with common functions</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-20"><label for="c1-20">Create constants/config file for all magic numbers</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Vibecode the perfect folder structure for my website. Tech: [list]. Show it as tree and explain why each folder exists.
+
+Refactor my current structure into clean architecture for website. Current: [paste tree].
+
+Generate the shared/utils folder with 8 must-have helper files for my website.
+
+Create a perfect constants/config file for my website with all reusable values.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 6: Design System & UI/UX</h3>
+      <div class="check-item"><input type="checkbox" id="c1-21"><label for="c1-21">Build complete design system (colors, typography, spacing, components)</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-22"><label for="c1-22">Add loading, empty, and error states everywhere</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-23"><label for="c1-23">Implement buttery micro-interactions & animations</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-24"><label for="c1-24">Make it fully responsive (mobile-first or desktop-first)</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Create a full design system (Tailwind / CSS variables) for my website. Name: [name]. Include dark mode.
+
+Generate reusable loading, empty and error state components/UI for my website.
+
+Add smooth micro-interactions and Framer Motion / CSS animations to my website screens.
+
+Make this UI perfectly responsive for website. Code: [paste].</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 7: Authentication & Login (if needed)</h3>
+      <div class="check-item"><input type="checkbox" id="c1-25"><label for="c1-25">Choose and implement auth (Firebase, Supabase, JWT, etc.)</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-26"><label for="c1-26">Add protected routes / screens</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-27"><label for="c1-27">Create forgot password + email verification flow</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-28"><label for="c1-28">Add session management & auto logout</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Implement the best auth system (with social login + magic links) for my website. Tech: [your choice].
+
+Add full protected routes/screens for my website auth system.
+
+Build the complete forgot-password + email verification flow for website.
+
+Add secure session management and auto-logout for my website.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 8: Core Functionality & Features</h3>
+      <div class="check-item"><input type="checkbox" id="c1-29"><label for="c1-29">Implement all main user flows without dead ends</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-30"><label for="c1-30">Add proper input validation + helpful error messages</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-31"><label for="c1-31">Make features feel alive (progress bars, toasts, etc.)</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-32"><label for="c1-32">Handle edge cases and offline states</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Vibecode the core user flows for my website. Flows: [list them].
+
+Add beautiful validation and error messages to all forms/inputs in my website.
+
+Add delightful feedback (toasts, sounds) to my website features.
+
+Add full offline support and edge-case handling for my website.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 9: Data Management & Storage</h3>
+      <div class="check-item"><input type="checkbox" id="c1-33"><label for="c1-33">Choose and set up database / local storage if needed</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-34"><label for="c1-34">Add data models + serialization</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-35"><label for="c1-35">Implement CRUD with proper error handling</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-36"><label for="c1-36">Add data export / backup / import feature if applicable</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Set up the perfect data layer for my website (Supabase / JSON / localStorage).
+
+Generate clean data models and serialization for my website.
+
+Write clean CRUD functions with full error handling for my website.
+
+Add one-click data export and backup for my website.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 10: Security, Privacy & Attribution</h3>
+      <div class="check-item"><input type="checkbox" id="c1-37"><label for="c1-37">Full security audit (XSS, CORS, rate limiting)</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-38"><label for="c1-38">Add privacy policy, attributions and licenses file</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-39"><label for="c1-39">Implement data encryption + GDPR-ready consent if needed</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-40"><label for="c1-40">Proper attribution for all third-party assets; GitHub in footer (https://github.com/AlexRabbit)</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Do a complete security audit and fix everything in my website code.
+
+Generate a full privacy policy + attributions.md + licenses page for my website.
+
+Add encryption at rest and consent flows for my website.
+
+Create an attributions.md and in-app credits for my website with all libraries used.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 11: Performance Optimization</h3>
+      <div class="check-item"><input type="checkbox" id="c1-41"><label for="c1-41">Lazy loading, code splitting, image optimization</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-42"><label for="c1-42">60 fps / smooth animations</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-43"><label for="c1-43">Add caching layers everywhere</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Optimize this website for maximum speed and smallest bundle size. Code: [paste].
+
+Make my website run at 60 fps and feel super smooth.
+
+Implement smart caching for my website.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 12: Testing & QA</h3>
+      <div class="check-item"><input type="checkbox" id="c1-44"><label for="c1-44">Write unit + integration tests for core features</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-45"><label for="c1-45">Create manual “vibe test” checklist</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-46"><label for="c1-46">Add error monitoring (Sentry / etc.)</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Write full Jest / Vitest tests for my website core features.
+
+Generate a complete manual vibe-testing checklist for my website before every release.
+
+Hook up Sentry to my website with proper source maps.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 13: Deployment & Distribution</h3>
+      <div class="check-item"><input type="checkbox" id="c1-47"><label for="c1-47">One-command deploy (Vercel, Netlify, GitHub Pages)</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-48"><label for="c1-48">Prepare store listings, screenshots, icons if applicable</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-49"><label for="c1-49">Add auto-update system if applicable</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Generate complete deployment + CI/CD pipeline for my website.
+
+Create all store assets (icons, screenshots, descriptions) for my website if needed.
+
+Implement auto-update for my website if applicable.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Websites: Type-specific bonus</h3>
+      <div class="check-item"><input type="checkbox" id="c1-50"><label for="c1-50">Add PWA + offline + install prompt</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-51"><label for="c1-51">SEO meta tags, Open Graph, sitemap.xml, robots.txt</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-52"><label for="c1-52">Google Analytics + Web Vitals perfect</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-53"><label for="c1-53">Lighthouse score 95+ target</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-54"><label for="c1-54">Contact form with spam protection</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-55"><label for="c1-55">Cookie consent banner (GDPR)</label></div>
+      <div class="check-item"><input type="checkbox" id="c1-56"><label for="c1-56">Dark/light mode toggle with system preference</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Add PWA + offline support + install prompt to my website.
+
+Add SEO meta tags, Open Graph, sitemap.xml, robots.txt for my website.
+
+Set up Google Analytics + Web Vitals for my website. Target Lighthouse 95+.
+
+Add contact form with spam protection and cookie consent (GDPR) for my website.
+
+Add dark/light mode toggle that respects system preference for my website.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+    </section>
+
+    <section class="section-card glass" id="s2">
+      <div class="section-header">
+        <h2 class="section-title"><span class="num">2</span> 📱 Webapps</h2>
+        <button type="button" class="btn-clear-section" aria-label="Clear checks in this section">Clear</button>
+      </div>
+      <p class="section-note">13 phases in order. Replace [PROJECT TYPE] with “webapp”. Use the prompts below to vibecode each step.</p>
+
+      <h3 class="subsection-title">Phase 1: Project Naming & Branding</h3>
+      <div class="check-item"><input type="checkbox" id="c2-1"><label for="c2-1">Choose catchy name + tagline; check domain availability</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-2"><label for="c2-2">Full branding kit (colors, fonts, logo, favicon)</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-3"><label for="c2-3">Tone of voice & writing style for the project</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-4"><label for="c2-4">Reserve usernames/domains</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Vibecode the perfect name, tagline and short description for my webapp. Idea: [PASTE]. Give 5 name options, domain check, vibe-matching color palette.
+
+Generate a complete branding kit for my webapp named [name]. Hex colors, fonts, logo, favicon, dark/light.
+
+Define tone of voice and writing style for my webapp. Examples for buttons, errors, README.
+
+List every username, domain, handle to register for my webapp named [name].</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 2: README & Documentation</h3>
+      <div class="check-item"><input type="checkbox" id="c2-5"><label for="c2-5">Beautiful README with badges and screenshots</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-6"><label for="c2-6">CONTRIBUTING.md + CODE_OF_CONDUCT.md</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-7"><label for="c2-7">Roadmap / todo in README</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-8"><label for="c2-8">One-paragraph file header comment</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Vibecode a complete README.md for my webapp. Name: [name]. Tech: [list]. Badges, quick start, roadmap.
+
+Generate CONTRIBUTING.md and CODE_OF_CONDUCT.md for my webapp.
+
+Add Roadmap & Future Vibes (8–10 features) to README for webapp.
+
+Give me the 2-line comment for the top of every file in my webapp.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 3: Project Setup & Initialization</h3>
+      <div class="check-item"><input type="checkbox" id="c2-9"><label for="c2-9">Git + conventional commits + .gitignore</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-10"><label for="c2-10">Scaffold (React/Vue/Next/etc + backend) correctly</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-11"><label for="c2-11">License + .github issue templates</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-12"><label for="c2-12">Basic CI (GitHub Actions) skeleton</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Perfect .gitignore and commitlint for my webapp using [tech stack].
+
+Exact terminal commands to initialize a new webapp with [React/Next + Node/Django/etc].
+
+Generate LICENSE.md and .github/ISSUE_TEMPLATE for my webapp.
+
+Create GitHub Actions workflow for lint + test on my webapp.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 4: Environment & Settings</h3>
+      <div class="check-item"><input type="checkbox" id="c2-13"><label for="c2-13">.env.example + .env.local; all variables</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-14"><label for="c2-14">Config files (tailwind, vite, backend)</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-15"><label for="c2-15">Logging setup (levels, colors, Sentry)</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-16"><label for="c2-16">Editor/IDE settings for project</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Create .env.example with all variables for my webapp (API keys, ports, DB URL, etc).
+
+Vibecode perfect config files for my webapp (frontend + backend).
+
+Add pro logging for my webapp with levels and colors.
+
+Generate .vscode/settings.json for my webapp.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 5: Folder Structure & Architecture</h3>
+      <div class="check-item"><input type="checkbox" id="c2-17"><label for="c2-17">Clean folder structure</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-18"><label for="c2-18">Clean architecture / feature-based</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-19"><label for="c2-19">shared/utils/helpers + common functions</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-20"><label for="c2-20">constants/config for magic numbers</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Perfect folder structure for my webapp. Tech: [list]. Tree + explanation.
+
+Refactor into clean architecture for webapp. Current: [paste tree].
+
+Generate shared/utils with 8 must-have helpers for my webapp.
+
+Create constants/config file for my webapp.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 6: Design System & UI/UX</h3>
+      <div class="check-item"><input type="checkbox" id="c2-21"><label for="c2-21">Design system (colors, typography, spacing, components)</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-22"><label for="c2-22">Loading, empty, error states everywhere</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-23"><label for="c2-23">Micro-interactions & animations</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-24"><label for="c2-24">Fully responsive</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Full design system for my webapp. Name: [name]. Include dark mode.
+
+Reusable loading, empty, error state components for my webapp.
+
+Add micro-interactions and Framer Motion / CSS animations to my webapp.
+
+Make UI perfectly responsive for my webapp. Code: [paste].</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 7: Authentication & Login</h3>
+      <div class="check-item"><input type="checkbox" id="c2-25"><label for="c2-25">Auth (Firebase, Supabase, JWT, NextAuth)</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-26"><label for="c2-26">Protected routes / screens</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-27"><label for="c2-27">Forgot password + email verification</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-28"><label for="c2-28">Session management & auto logout</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Implement best auth (social + magic links) for my webapp. Tech: [choice].
+
+Add protected routes/screens for my webapp auth.
+
+Build forgot-password + email verification for webapp.
+
+Add session management and auto-logout for my webapp.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 8: Core Functionality & Features</h3>
+      <div class="check-item"><input type="checkbox" id="c2-29"><label for="c2-29">All main user flows; no dead ends</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-30"><label for="c2-30">Input validation + helpful errors</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-31"><label for="c2-31">Delightful feedback (toasts, progress, confetti)</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-32"><label for="c2-32">Edge cases and offline states</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Vibecode core user flows for my webapp. Flows: [list].
+
+Add validation and error messages to all forms in my webapp.
+
+Add delightful feedback (confetti, toasts) to my webapp features.
+
+Add offline support and edge-case handling for my webapp.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 9: Data Management & Storage</h3>
+      <div class="check-item"><input type="checkbox" id="c2-33"><label for="c2-33">Database / storage (Supabase, SQLite, Room, JSON)</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-34"><label for="c2-34">Data models + serialization</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-35"><label for="c2-35">CRUD with error handling</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-36"><label for="c2-36">Data export / backup / import</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Set up perfect data layer for my webapp (Supabase/Room/SQLite/JSON).
+
+Generate data models and serialization for my webapp.
+
+Write CRUD with full error handling for my webapp.
+
+Add one-click export and backup for my webapp.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 10: Security, Privacy & Attribution</h3>
+      <div class="check-item"><input type="checkbox" id="c2-37"><label for="c2-37">Security audit (XSS, CORS, rate limiting)</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-38"><label for="c2-38">Privacy policy, attributions, licenses</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-39"><label for="c2-39">Encryption + GDPR consent</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-40"><label for="c2-40">Attribution; footer GitHub (https://github.com/AlexRabbit)</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Complete security audit and fix everything in my webapp code.
+
+Generate privacy policy + attributions.md + licenses for my webapp.
+
+Add encryption and consent flows for my webapp.
+
+Create attributions.md and in-app credits for my webapp.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 11: Performance</h3>
+      <div class="check-item"><input type="checkbox" id="c2-41"><label for="c2-41">Lazy loading, code splitting, image optimization</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-42"><label for="c2-42">60 fps, battery-friendly</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-43"><label for="c2-43">Caching (React Query / Redis)</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Optimize my webapp for max speed and smallest bundle. Code: [paste].
+
+Make my webapp 60 fps and battery friendly.
+
+Implement smart caching for my webapp.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 12: Testing & QA</h3>
+      <div class="check-item"><input type="checkbox" id="c2-44"><label for="c2-44">Unit + integration tests</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-45"><label for="c2-45">Manual vibe-test checklist</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-46"><label for="c2-46">Error monitoring (Sentry)</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Write Jest/Vitest tests for my webapp core features.
+
+Generate manual vibe-testing checklist for my webapp before release.
+
+Hook up Sentry to my webapp with source maps.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 13: Deployment</h3>
+      <div class="check-item"><input type="checkbox" id="c2-47"><label for="c2-47">One-command deploy + CI/CD</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-48"><label for="c2-48">Store listings, screenshots, icons</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-49"><label for="c2-49">Auto-update if applicable</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Complete deployment + CI/CD pipeline for my webapp.
+
+Create store assets for my webapp.
+
+Implement auto-update for my webapp if applicable.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Webapps: Type-specific bonus</h3>
+      <div class="check-item"><input type="checkbox" id="c2-50"><label for="c2-50">State management (Zustand / Redux / Pinia)</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-51"><label for="c2-51">Real-time (WebSockets / Supabase Realtime)</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-52"><label for="c2-52">Role-based access (admin/user)</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-53"><label for="c2-53">Multi-tab sync</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-54"><label for="c2-54">Keyboard shortcuts</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-55"><label for="c2-55">PWA + push notifications</label></div>
+      <div class="check-item"><input type="checkbox" id="c2-56"><label for="c2-56">Export to PDF/CSV</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Add state management (Zustand/Redux/Pinia) for my webapp.
+
+Add real-time with WebSockets or Supabase Realtime to my webapp.
+
+Implement role-based access control for my webapp.
+
+Add multi-tab sync and keyboard shortcuts to my webapp.
+
+Add PWA + push notifications and export to PDF/CSV for my webapp.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+    </section>
+
+    <section class="section-card glass" id="s3">
+      <div class="section-header">
+        <h2 class="section-title"><span class="num">3</span> 🖥️ Windows apps</h2>
+        <button type="button" class="btn-clear-section" aria-label="Clear checks in this section">Clear</button>
+      </div>
+      <p class="section-note">13 phases in order. Replace [PROJECT TYPE] with “Windows app”. Use the prompts below to vibecode each step.</p>
+
+      <h3 class="subsection-title">Phase 1: Project Naming & Branding</h3>
+      <div class="check-item"><input type="checkbox" id="c3-1"><label for="c3-1">Catchy name + tagline; check App Store / domain</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-2"><label for="c3-2">Branding kit (colors, fonts, icon, installer branding)</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-3"><label for="c3-3">Tone of voice for UI and docs</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-4"><label for="c3-4">Reserve names and handles</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Vibecode name, tagline, description for my Windows app. Idea: [PASTE]. 5 names, domain/Store check, color palette.
+
+Generate branding kit for my Windows app named [name]. Colors, fonts, icon specs.
+
+Define tone of voice for my Windows app UI and README.
+
+List every handle and package name to register for my Windows app [name].</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 2: README & Documentation</h3>
+      <div class="check-item"><input type="checkbox" id="c3-5"><label for="c3-5">README with badges, screenshots, install/run</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-6"><label for="c3-6">CONTRIBUTING + CODE_OF_CONDUCT</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-7"><label for="c3-7">Roadmap in README</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-8"><label for="c3-8">File header comment</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Vibecode README for my Windows app. Name: [name]. Tech: [list]. Badges, quick start, roadmap.
+
+Generate CONTRIBUTING.md and CODE_OF_CONDUCT.md for my Windows app.
+
+Add Roadmap to README for Windows app.
+
+Give 2-line comment for top of every file in my Windows app.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 3: Project Setup & Initialization</h3>
+      <div class="check-item"><input type="checkbox" id="c3-9"><label for="c3-9">Git + .gitignore; single .bat installs runtime + deps (brand new PC test)</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-10"><label for="c3-10">Scaffold (WinUI/WPF/Electron/Python GUI) correctly</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-11"><label for="c3-11">License + .github issue templates</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-12"><label for="c3-12">Basic CI for build/test</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Perfect .gitignore for my Windows app. Generate .bat that installs Python/Node/runtime + requirements.txt so one file sets up project.
+
+Exact commands to create new Windows app with [WinUI 3/WPF/Electron/Python].
+
+Generate LICENSE and .github/ISSUE_TEMPLATE for my Windows app.
+
+Create GitHub Actions for build + test on my Windows app.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 4: Environment & Settings</h3>
+      <div class="check-item"><input type="checkbox" id="c3-13"><label for="c3-13">Config / .env; all variables; no hardcoded secrets</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-14"><label for="c3-14">App config files (appsettings, manifest)</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-15"><label for="c3-15">Logging setup (file + levels)</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-16"><label for="c3-16">VS Code / Visual Studio settings</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Create config with all variables for my Windows app. API keys in env/config only.
+
+Vibecode app config (appsettings.json, AndroidManifest-style) for my Windows app.
+
+Add logging to file with levels for my Windows app.
+
+Generate .vscode/settings or VS solution settings for my Windows app.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 5: Folder Structure & Architecture</h3>
+      <div class="check-item"><input type="checkbox" id="c3-17"><label for="c3-17">Clean folder structure</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-18"><label for="c3-18">MVVM / clean architecture</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-19"><label for="c3-19">shared/utils/helpers</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-20"><label for="c3-20">Constants/config for magic numbers</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Perfect folder structure for my Windows app. Tech: [list]. Tree + explanation.
+
+Refactor into MVVM/clean architecture for Windows app. Current: [paste].
+
+Generate shared/utils for my Windows app.
+
+Create constants file for my Windows app.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 6: Design System & UI/UX</h3>
+      <div class="check-item"><input type="checkbox" id="c3-21"><label for="c3-21">Design system; default theme (e.g. night); borders/panels consistent</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-22"><label for="c3-22">Loading, empty, error states</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-23"><label for="c3-23">Micro-interactions; hide console; no console window on taskbar</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-24"><label for="c3-24">Responsive layout; readable text (WCAG)</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Design system for my Windows app. Default night theme. XAML/WinUI/Electron theme. Include dark mode.
+
+Loading, empty, error state UI for my Windows app.
+
+Add micro-interactions. Hide console window and prevent app showing as console on taskbar.
+
+Make layout responsive and text readable (WCAG).</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 7: Authentication (if needed)</h3>
+      <div class="check-item"><input type="checkbox" id="c3-25"><label for="c3-25">Auth (Windows Hello, JWT, OAuth)</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-26"><label for="c3-26">Protected screens</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-27"><label for="c3-27">Password reset / verification</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-28"><label for="c3-28">Session & auto logout</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Implement auth for my Windows app (Windows Hello / JWT / OAuth).
+
+Add protected screens for my Windows app.
+
+Build password reset flow for my Windows app.
+
+Add session management and auto-logout for my Windows app.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 8: Core Functionality</h3>
+      <div class="check-item"><input type="checkbox" id="c3-29"><label for="c3-29">Main user flows; no dead ends</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-30"><label for="c3-30">Validation + error messages</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-31"><label for="c3-31">Progress bars, toasts; async so UI doesn’t freeze</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-32"><label for="c3-32">Edge cases; timeouts configurable</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Vibecode core user flows for my Windows app. Flows: [list].
+
+Add validation and error messages to all inputs in my Windows app.
+
+Add progress bars and toasts; use async/threading so UI never freezes.
+
+Handle edge cases; make timeouts configurable.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 9: Data & Storage</h3>
+      <div class="check-item"><input type="checkbox" id="c3-33"><label for="c3-33">Local DB / JSON / settings persistence</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-34"><label for="c3-34">Data models + serialization</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-35"><label for="c3-35">CRUD with error handling</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-36"><label for="c3-36">Export/backup if applicable</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Set up data layer for my Windows app (SQLite/JSON/settings).
+
+Generate data models and serialization for my Windows app.
+
+Write CRUD with error handling for my Windows app.
+
+Add export/backup for my Windows app.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 10: Security, Privacy & Attribution</h3>
+      <div class="check-item"><input type="checkbox" id="c3-37"><label for="c3-37">Secure storage; no hardcoded secrets</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-38"><label for="c3-38">Privacy policy; attributions</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-39"><label for="c3-39">Encryption at rest if needed</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-40"><label for="c3-40">Attribution; About + footer GitHub (https://github.com/AlexRabbit)</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Secure storage for secrets in my Windows app. Audit for hardcoded keys.
+
+Generate privacy policy + attributions for my Windows app.
+
+Add encryption at rest if my Windows app stores sensitive data.
+
+Create attributions and About with GitHub link for my Windows app.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 11: Performance</h3>
+      <div class="check-item"><input type="checkbox" id="c3-41"><label for="c3-41">60 fps; no UI blocking</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-42"><label for="c3-42">Battery-friendly background work</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-43"><label for="c3-43">Caching where needed</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Make my Windows app 60 fps and never block UI.
+
+Optimize background work for battery.
+
+Add caching for my Windows app.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 12: Testing & QA</h3>
+      <div class="check-item"><input type="checkbox" id="c3-44"><label for="c3-44">Unit tests for core logic</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-45"><label for="c3-45">Manual vibe-test checklist</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-46"><label for="c3-46">Crash reporting (Sentry / Windows Telemetry)</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Write unit tests for my Windows app core features.
+
+Generate manual vibe-test checklist for my Windows app.
+
+Hook up crash reporting for my Windows app.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 13: Deployment</h3>
+      <div class="check-item"><input type="checkbox" id="c3-47"><label for="c3-47">Installer (Inno Setup / MSIX); one-command deploy</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-48"><label for="c3-48">Store listing assets if publishing</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-49"><label for="c3-49">Auto-update system</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Generate installer (Inno Setup or MSIX) for my Windows app. One-command build.
+
+Create store assets for my Windows app for Microsoft Store.
+
+Implement auto-update for my Windows app.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Windows apps: Type-specific bonus</h3>
+      <div class="check-item"><input type="checkbox" id="c3-50"><label for="c3-50">Native menu bar + tray icon + global hotkeys</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-51"><label for="c3-51">Windows Hello / biometric login</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-52"><label for="c3-52">Proper installer (Inno Setup or MSIX)</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-53"><label for="c3-53">Taskbar progress & jump lists</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-54"><label for="c3-54">Dark mode following Windows theme</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-55"><label for="c3-55">Auto-start on boot option</label></div>
+      <div class="check-item"><input type="checkbox" id="c3-56"><label for="c3-56">Drag & drop files support</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Add native menu, system tray icon, and global hotkeys to my Windows app.
+
+Implement Windows Hello / biometric login for my Windows app.
+
+Create proper installer (Inno Setup or MSIX) for my Windows app.
+
+Add taskbar progress and jump lists. Dark mode following Windows theme.
+
+Add auto-start on boot option and drag-and-drop file support.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+    </section>
+
+    <section class="section-card glass" id="s4">
+      <div class="section-header">
+        <h2 class="section-title"><span class="num">4</span> 📜 Scripts</h2>
+        <button type="button" class="btn-clear-section" aria-label="Clear checks in this section">Clear</button>
+      </div>
+      <p class="section-note">13 phases in order. Replace [PROJECT TYPE] with “script”. Use the prompts below to vibecode each step.</p>
+
+      <h3 class="subsection-title">Phase 1: Project Naming & Branding</h3>
+      <div class="check-item"><input type="checkbox" id="c4-1"><label for="c4-1">Clear script name; check PyPI/npm name if publishing</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-2"><label for="c4-2">Short description and tagline</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-3"><label for="c4-3">Tone for help text and errors</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-4"><label for="c4-4">Reserve package name if publishing</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Vibecode name and short description for my script. Idea: [PASTE]. Check PyPI/npm name availability.
+
+Define tone for help text and error messages for my script.
+
+List package name and handles to reserve for my script [name].</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 2: README & Documentation</h3>
+      <div class="check-item"><input type="checkbox" id="c4-5"><label for="c4-5">README: what, how to run, args, examples</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-6"><label for="c4-6">CONTRIBUTING if open source</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-7"><label for="c4-7">Roadmap or future options in README</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-8"><label for="c4-8">Docstring / file header</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Vibecode README for my script. Name: [name]. What it does, install, run, all args, examples. Troubleshooting, compatibility.
+
+Generate CONTRIBUTING for my script if open source.
+
+Add roadmap/future section to README for script.
+
+Give 2-line docstring for top of my script file.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 3: Project Setup & Initialization</h3>
+      <div class="check-item"><input type="checkbox" id="c4-9"><label for="c4-9">Git + .gitignore; single .bat or one-file run (brand new machine)</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-10"><label for="c4-10">requirements.txt / package.json; dependencies in one place</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-11"><label for="c4-11">License + issue templates</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-12"><label for="c4-12">CI for lint/test if applicable</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Perfect .gitignore for my [Python/Node/bash] script. One .bat or script that installs deps and runs (brand new PC test).
+
+Generate requirements.txt or package.json for my script with all deps.
+
+Generate LICENSE and .github/ISSUE_TEMPLATE for my script.
+
+Create GitHub Actions for lint/test on my script.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 4: Environment & Settings</h3>
+      <div class="check-item"><input type="checkbox" id="c4-13"><label for="c4-13">CLI args (argparse / click) + env vars; no hardcoded secrets</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-14"><label for="c4-14">Config file (YAML/JSON) with validation</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-15"><label for="c4-15">Logging to file + colorful console</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-16"><label for="c4-16">Help text that actually helps</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Add CLI with argparse/click for my script. All options, env vars, no secrets in code.
+
+Create config file (YAML/JSON) with validation for my script.
+
+Add logging to file + colorful console (rich/tqdm style) for my script.
+
+Write help text for every argument that actually helps the user.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 5: Folder Structure</h3>
+      <div class="check-item"><input type="checkbox" id="c4-17"><label for="c4-17">Clean layout (src/, tests/, config)</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-18"><label for="c4-18">Modular; main entry point clear</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-19"><label for="c4-19">Shared helpers in utils</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-20"><label for="c4-20">Constants in one place</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Perfect folder structure for my script. Tree + entry point.
+
+Refactor script into modules; clear main(). Current: [paste].
+
+Generate utils/helpers for my script.
+
+Create constants file for my script.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 6: Design / UX (CLI)</h3>
+      <div class="check-item"><input type="checkbox" id="c4-21"><label for="c4-21">Rich progress bars / spinners</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-22"><label for="c4-22">Clear success/error output</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-23"><label for="c4-23">Colors and formatting (rich/click)</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-24"><label for="c4-24">Version command + update checker</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Add rich progress bars and spinners to my script.
+
+Make success/error output clear and consistent.
+
+Add colors and formatting (rich/click) to my script output.
+
+Add --version and optional update checker for my script.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 7–9: (N/A or minimal for scripts)</h3>
+      <div class="check-item"><input type="checkbox" id="c4-25"><label for="c4-25">Auth/API: tokens in env or config only</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-26"><label for="c4-26">Core logic: input → output documented</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-27"><label for="c4-27">Data: safe filenames; no hardcoded paths</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-28"><label for="c4-28">Paths: relative or %~dp0/__dirname</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Ensure all API keys/tokens are in env or config for my script.
+
+Document input and output for my script; add validation.
+
+Sanitize user/API data for safe filenames. Use relative paths or __dirname/%~dp0.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 10: Security & Attribution</h3>
+      <div class="check-item"><input type="checkbox" id="c4-29"><label for="c4-29">No secrets in code; secure config</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-30"><label for="c4-30">Attribution for libs; LICENSE in repo</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-31"><label for="c4-31">GitHub link in README (https://github.com/AlexRabbit)</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Audit my script for hardcoded secrets; use env/config only.
+
+Add attribution for libraries; ensure LICENSE in repo. Add GitHub link in README.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 11–12: Performance & Testing</h3>
+      <div class="check-item"><input type="checkbox" id="c4-32"><label for="c4-32">Streaming for large data; timeouts</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-33"><label for="c4-33">Unit tests for core logic</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-34"><label for="c4-34">Error reporting to file + optional webhook</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Add streaming and timeouts for large data in my script.
+
+Write pytest/jest tests for my script core logic.
+
+Add error reporting to file; optional Discord webhook for failures.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 13: Packaging & Deployment</h3>
+      <div class="check-item"><input type="checkbox" id="c4-35"><label for="c4-35">One-file executable (PyInstaller/Nuitka) if shipping</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-36"><label for="c4-36">Releases; install instructions</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Create one-file executable with PyInstaller/Nuitka for my script.
+
+Generate GitHub Releases workflow and install instructions for my script.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Scripts: Type-specific bonus</h3>
+      <div class="check-item"><input type="checkbox" id="c4-37"><label for="c4-37">argparse/click + rich progress bars</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-38"><label for="c4-38">Log to file + colorful console</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-39"><label for="c4-39">Config file (YAML/JSON) with validation</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-40"><label for="c4-40">One-file exe (PyInstaller/Nuitka)</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-41"><label for="c4-41">Error report to file + optional Discord webhook</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-42"><label for="c4-42">--version + update checker</label></div>
+      <div class="check-item"><input type="checkbox" id="c4-43"><label for="c4-43">Help text that actually helps</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Add argparse/click + rich progress bars, log to file + colorful console, config YAML/JSON with validation.
+
+Create one-file executable; error report to file + optional Discord webhook.
+
+Add --version and update checker; help text that actually helps.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+    </section>
+
+    <section class="section-card glass" id="s5">
+      <div class="section-header">
+        <h2 class="section-title"><span class="num">5</span> 🤖 Telegram bots</h2>
+        <button type="button" class="btn-clear-section" aria-label="Clear checks in this section">Clear</button>
+      </div>
+      <p class="section-note">13 phases in order. Replace [PROJECT TYPE] with “Telegram bot”. Use the prompts below to vibecode each step.</p>
+
+      <h3 class="subsection-title">Phase 1: Project Naming & Branding</h3>
+      <div class="check-item"><input type="checkbox" id="c5-1"><label for="c5-1">Bot name + username; check @BotFather availability</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-2"><label for="c5-2">Description and about text for bot</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-3"><label for="c5-3">Tone of voice for messages</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-4"><label for="c5-4">Reserve bot username</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Vibecode name and description for my Telegram bot. Idea: [PASTE]. Check @BotFather username.
+
+Define tone of voice for bot messages and errors.
+
+List bot username and any handles to reserve for my Telegram bot [name].</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 2: README & Documentation</h3>
+      <div class="check-item"><input type="checkbox" id="c5-5"><label for="c5-5">README: how to get token, run, commands</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-6"><label for="c5-6">CONTRIBUTING if open source</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-7"><label for="c5-7">Roadmap in README</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-8"><label for="c5-8">File/docstring header</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Vibecode README for my Telegram bot. How to get token, run (polling/webhook), all commands.
+
+Generate CONTRIBUTING for my Telegram bot.
+
+Add roadmap to README. Give 2-line docstring for top of main bot file.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 3: Project Setup & Initialization</h3>
+      <div class="check-item"><input type="checkbox" id="c5-9"><label for="c5-9">Git + .gitignore; token in env only</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-10"><label for="c5-10">Scaffold (python-telegram-bot / Telegraf / etc.)</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-11"><label for="c5-11">License + issue templates</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-12"><label for="c5-12">CI for lint/test</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Perfect .gitignore for my Telegram bot. Token only in env.
+
+Exact commands to create new Telegram bot with [python-telegram-bot/Telegraf].
+
+Generate LICENSE and .github/ISSUE_TEMPLATE for my Telegram bot.
+
+Create GitHub Actions for my Telegram bot.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 4: Environment & Settings</h3>
+      <div class="check-item"><input type="checkbox" id="c5-13"><label for="c5-13">.env with BOT_TOKEN and all vars</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-14"><label for="c5-14">Config for webhook URL, DB, etc.</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-15"><label for="c5-15">Logging (file + levels)</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-16"><label for="c5-16">Settings via commands or inline; persistence</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Create .env.example for my Telegram bot (BOT_TOKEN, webhook URL, DB, etc).
+
+Vibecode config for my Telegram bot.
+
+Add logging with levels for my Telegram bot.
+
+Add settings via commands or inline buttons; persist user preferences.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 5: Folder Structure & Architecture</h3>
+      <div class="check-item"><input type="checkbox" id="c5-17"><label for="c5-17">Clean folder (handlers, utils, models)</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-18"><label for="c5-18">Command routing; FSM if needed</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-19"><label for="c5-19">Shared helpers</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-20"><label for="c5-20">Constants in one place</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Perfect folder structure for my Telegram bot. Handlers, utils, models.
+
+Design command routing and FSM for my Telegram bot.
+
+Generate shared utils for my Telegram bot. Create constants file.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 6: Design (Conversation & Keyboards)</h3>
+      <div class="check-item"><input type="checkbox" id="c5-21"><label for="c5-21">Inline keyboards + callback queries</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-22"><label for="c5-22">Clear /start and /help messages</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-23"><label for="c5-23">Consistent message formatting</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-24"><label for="c5-24">Error messages friendly</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Add inline keyboards and callback queries everywhere to my Telegram bot.
+
+Write clear /start and /help messages for my Telegram bot.
+
+Define consistent message formatting and friendly error messages.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 7: Auth / Protected Commands</h3>
+      <div class="check-item"><input type="checkbox" id="c5-25"><label for="c5-25">Admin-only commands if needed</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-26"><label for="c5-26">User allowlist/blocklist</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-27"><label for="c5-27">Protected routes / command handlers</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Add admin-only commands and user allowlist/blocklist for my Telegram bot.
+
+Add protected command handlers for my Telegram bot.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 8: Core Functionality</h3>
+      <div class="check-item"><input type="checkbox" id="c5-28"><label for="c5-28">All main commands implemented; no dead ends</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-29"><label for="c5-29">Input validation + helpful errors</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-30"><label for="c5-30">Conversation states (FSM) where needed</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-31"><label for="c5-31">Rate limiting + anti-flood</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Vibecode all main commands for my Telegram bot. Flows: [list].
+
+Add validation and helpful error messages for my Telegram bot.
+
+Implement FSM for conversation states in my Telegram bot.
+
+Add rate limiting and anti-flood protection to my Telegram bot.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 9: Data & Storage</h3>
+      <div class="check-item"><input type="checkbox" id="c5-32"><label for="c5-32">Persistent storage (SQLite/Redis) for user data</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-33"><label for="c5-33">User/session models</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-34"><label for="c5-34">CRUD with error handling</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Set up persistent storage (SQLite/Redis) for my Telegram bot user data.
+
+Generate user/session models for my Telegram bot.
+
+Write CRUD with error handling for my Telegram bot.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 10: Security & Attribution</h3>
+      <div class="check-item"><input type="checkbox" id="c5-35"><label for="c5-35">Token never in code; rate limit; abuse protection</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-36"><label for="c5-36">Attribution; GitHub in README (https://github.com/AlexRabbit)</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Audit my Telegram bot: token only in env, rate limit, abuse protection.
+
+Add attribution and GitHub link in README for my Telegram bot.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 11–12: Performance & Testing</h3>
+      <div class="check-item"><input type="checkbox" id="c5-37"><label for="c5-37">Webhook vs polling decision + setup</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-38"><label for="c5-38">Unit tests for handlers</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-39"><label for="c5-39">Error logging and monitoring</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Set up webhook (or polling) for my Telegram bot. Document decision.
+
+Write tests for my Telegram bot command handlers.
+
+Add error logging and optional Sentry for my Telegram bot.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 13: Deployment</h3>
+      <div class="check-item"><input type="checkbox" id="c5-40"><label for="c5-40">Deploy (VPS, Railway, etc.); webhook URL</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-41"><label for="c5-41">Bot description and commands in BotFather</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Generate deployment (VPS/Railway) and webhook setup for my Telegram bot.
+
+Create BotFather command list and description for my Telegram bot.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Telegram bots: Type-specific bonus</h3>
+      <div class="check-item"><input type="checkbox" id="c5-42"><label for="c5-42">Full FSM / conversation states</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-43"><label for="c5-43">Inline keyboards + callback queries everywhere</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-44"><label for="c5-44">Rate limiting + anti-flood</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-45"><label for="c5-45">/start + /help + custom commands menu</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-46"><label for="c5-46">Persistent storage for user data</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-47"><label for="c5-47">Webhook vs polling + setup</label></div>
+      <div class="check-item"><input type="checkbox" id="c5-48"><label for="c5-48">Admin panel commands + broadcast</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Implement full FSM and conversation states for my Telegram bot.
+
+Add inline keyboards and callback queries; rate limiting and anti-flood.
+
+Implement /start, /help, custom commands menu; persistent user storage.
+
+Set up webhook vs polling; add admin commands and broadcast feature.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+    </section>
+
+    <section class="section-card glass" id="s6">
+      <div class="section-header">
+        <h2 class="section-title"><span class="num">6</span> 📲 Android apps</h2>
+        <button type="button" class="btn-clear-section" aria-label="Clear checks in this section">Clear</button>
+      </div>
+      <p class="section-note">13 phases in order. Replace [PROJECT TYPE] with “Android app”. Use the prompts below to vibecode each step.</p>
+
+      <h3 class="subsection-title">Phase 1: Project Naming & Branding</h3>
+      <div class="check-item"><input type="checkbox" id="c6-1"><label for="c6-1">App name + package name; check Play Store</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-2"><label for="c6-2">Branding (colors, fonts, icon, splash)</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-3"><label for="c6-3">Tone for in-app copy</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-4"><label for="c6-4">Reserve package name</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Vibecode name and package for my Android app. Idea: [PASTE]. Check Play Store.
+
+Generate branding (colors, icon, splash) for my Android app named [name].
+
+Define tone for in-app copy. List package name to reserve.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 2: README & Documentation</h3>
+      <div class="check-item"><input type="checkbox" id="c6-5"><label for="c6-5">README: what, build/run, JDK/Gradle, compatibility</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-6"><label for="c6-6">CONTRIBUTING + CODE_OF_CONDUCT</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-7"><label for="c6-7">Roadmap in README</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-8"><label for="c6-8">File header / KDoc</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Vibecode README for my Android app. Build instructions, JDK, Gradle, API level. Troubleshooting.
+
+Generate CONTRIBUTING and CODE_OF_CONDUCT for my Android app.
+
+Add roadmap to README. Give KDoc/file header for main files.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 3: Project Setup & Initialization</h3>
+      <div class="check-item"><input type="checkbox" id="c6-9"><label for="c6-9">Git + .gitignore; dependencies in one place</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-10"><label for="c6-10">Scaffold (Kotlin/Compose or XML); build script (build-apk.bat) with JAVA_HOME</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-11"><label for="c6-11">License + issue templates</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-12"><label for="c6-12">CI for build/lint</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Perfect .gitignore for my Android app. Gradle, build outputs.
+
+Exact steps to create new Android app with [Kotlin/Compose/XML]. Build script with JAVA_HOME.
+
+Generate LICENSE and .github/ISSUE_TEMPLATE for my Android app.
+
+Create GitHub Actions for build and lint on my Android app.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 4: Environment & Settings</h3>
+      <div class="check-item"><input type="checkbox" id="c6-13"><label for="c6-13">Build config; API keys in local.properties/buildConfig</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-14"><label for="c6-14">Settings screen; persistence (DataStore/SharedPrefs)</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-15"><label for="c6-15">Logging (Logcat + optional file)</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-16"><label for="c6-16">No hardcoded secrets</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Configure build for my Android app; API keys in local.properties or BuildConfig.
+
+Create Settings screen with DataStore/SharedPreferences persistence for my Android app.
+
+Add logging (Logcat + optional file). Ensure no secrets in code.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 5: Folder Structure & Architecture</h3>
+      <div class="check-item"><input type="checkbox" id="c6-17"><label for="c6-17">Clean architecture (MVVM); modules</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-18"><label for="c6-18">data / domain / ui layers</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-19"><label for="c6-19">Shared utils and constants</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Perfect folder structure (MVVM) for my Android app. data, domain, ui.
+
+Refactor into clean architecture for my Android app. Current: [paste].
+
+Generate shared utils and constants for my Android app.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 6: Design System & UI/UX</h3>
+      <div class="check-item"><input type="checkbox" id="c6-20"><label for="c6-20">Jetpack Compose or XML + Material 3 theme</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-21"><label for="c6-21">Loading, empty, error states</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-22"><label for="c6-22">Micro-interactions; dark mode</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-23"><label for="c6-23">Navigation; About + Settings screens</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Create Material 3 theme (Jetpack Compose or XML) for my Android app. Dark mode.
+
+Add loading, empty, error state UI for my Android app.
+
+Add micro-interactions and navigation; About and Settings screens.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 7: Authentication (if needed)</h3>
+      <div class="check-item"><input type="checkbox" id="c6-24"><label for="c6-24">Auth (Firebase, biometric, etc.)</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-25"><label for="c6-25">Protected screens</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-26"><label for="c6-26">Biometric + fingerprint login</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Implement auth (Firebase/biometric) for my Android app.
+
+Add protected screens and biometric/fingerprint login for my Android app.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 8: Core Functionality</h3>
+      <div class="check-item"><input type="checkbox" id="c6-27"><label for="c6-27">Main user flows; no dead ends</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-28"><label for="c6-28">Validation + error messages</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-29"><label for="c6-29">Room + Hilt + Coroutines/Flow</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-30"><label for="c6-30">Edge cases; offline support</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Vibecode core user flows for my Android app. Flows: [list].
+
+Add validation and error messages for my Android app.
+
+Set up Room + Hilt + Coroutines/Flow for my Android app.
+
+Add offline support and edge-case handling for my Android app.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 9: Data & Storage</h3>
+      <div class="check-item"><input type="checkbox" id="c6-31"><label for="c6-31">Room DB; persistence survives restart</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-32"><label for="c6-32">Data models + DAOs</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-33"><label for="c6-33">CRUD with error handling</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Set up Room database for my Android app. Persistence across restarts.
+
+Generate data models and DAOs for my Android app.
+
+Write CRUD with error handling for my Android app.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 10: Security & Attribution</h3>
+      <div class="check-item"><input type="checkbox" id="c6-34"><label for="c6-34">No secrets in code; ProGuard if needed</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-35"><label for="c6-35">Attribution; About + GitHub (https://github.com/AlexRabbit)</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Audit my Android app for secrets; ProGuard rules. Add attribution and About screen with GitHub link.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 11: Performance</h3>
+      <div class="check-item"><input type="checkbox" id="c6-36"><label for="c6-36">60 fps; battery-friendly; background with WorkManager</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-37"><label for="c6-37">Image loading (Coil); caching</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Optimize my Android app for 60 fps and battery. Use WorkManager for background.
+
+Add Coil for images and caching for my Android app.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 12: Testing & QA</h3>
+      <div class="check-item"><input type="checkbox" id="c6-38"><label for="c6-38">Unit + instrumented tests</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-39"><label for="c6-39">Firebase Crashlytics / error monitoring</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Write unit and instrumented tests for my Android app.
+
+Hook up Firebase Crashlytics for my Android app.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Phase 13: Deployment & Play Store</h3>
+      <div class="check-item"><input type="checkbox" id="c6-40"><label for="c6-40">App bundle; signing; release build</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-41"><label for="c6-41">Store listing (screenshots, description)</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-42"><label for="c6-42">Deep linking + App Links</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Generate release build, signing, and app bundle for my Android app.
+
+Create store listing assets (screenshots, description) for my Android app.
+
+Add deep linking and App Links for my Android app.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+
+      <h3 class="subsection-title">Android apps: Type-specific bonus</h3>
+      <div class="check-item"><input type="checkbox" id="c6-43"><label for="c6-43">Jetpack Compose or XML + Material 3 full theme</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-44"><label for="c6-44">Room + Hilt + Coroutines/Flow</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-45"><label for="c6-45">Firebase / WorkManager background tasks</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-46"><label for="c6-46">Deep linking + App Links</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-47"><label for="c6-47">Notification channels + rich notifications</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-48"><label for="c6-48">Biometric + fingerprint login</label></div>
+      <div class="check-item"><input type="checkbox" id="c6-49"><label for="c6-49">Play Store ready (bundle, signing, ProGuard)</label></div>
+      <details class="prompt-details"><summary>Prompt to send to AI</summary><pre class="prompt-box">Implement Material 3 theme, Room + Hilt + Coroutines/Flow for my Android app.
+
+Add Firebase/WorkManager for background; deep linking and App Links.
+
+Add notification channels and rich notifications; biometric login.
+
+Prepare Play Store: app bundle, signing, ProGuard for my Android app.</pre><button type="button" class="copy-prompt-btn">Copy</button></details>
+    </section>
+
+  
+  </main>
+
+  <footer class="footer">
+    <span class="footer-text">Vibecoding Checklist · Save in <code>Checklist\</code> and tick per project</span>
+    <span class="github-link"><a href="https://github.com/AlexRabbit" target="_blank" rel="noopener">GitHub @AlexRabbit</a></span>
+  </footer>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function runChecklist() {
+      var themeSelect = document.getElementById('themeSelect');
+      if (themeSelect) {
+        var theme = localStorage.getItem('vibecoding-theme') || 'light';
+        themeSelect.value = theme;
+        document.body.classList.toggle('theme-dark', theme === 'dark');
+        themeSelect.addEventListener('change', function() {
+          var v = themeSelect.value;
+          localStorage.setItem('vibecoding-theme', v);
+          document.body.classList.toggle('theme-dark', v === 'dark');
+        });
+      }
+      var openInput = document.getElementById('openChecklistInput');
+      var btnOpen = document.getElementById('btnOpenChecklist');
+      if (btnOpen && openInput) {
+        btnOpen.addEventListener('click', function() { openInput.click(); });
+        openInput.addEventListener('change', function(e) {
+          var file = e.target.files && e.target.files[0];
+          if (file) {
+            var r = new FileReader();
+            r.onload = function() {
+              document.open();
+              document.write(r.result);
+              document.close();
+            };
+            r.readAsText(file, 'utf-8');
+          }
+          e.target.value = '';
+        });
+      }
+      var btnSave = document.getElementById('btnSaveChecklist');
+      if (btnSave) {
+        btnSave.addEventListener('click', function() {
+          var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+          var usePicker = (window.location.protocol === 'https:' || (window.location.protocol === 'http:' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))) && typeof window.showSaveFilePicker === 'function';
+          if (usePicker) {
+            window.showSaveFilePicker({ types: [{ description: 'HTML', accept: { 'text/html': ['.html'] } }], suggestedName: 'VibeCheck.html' })
+              .then(function(handle) { return handle.createWritable(); })
+              .then(function(w) { w.write(html); return w.close(); })
+              .catch(function(err) { if (err.name !== 'AbortError') doDownload(html); });
+          } else {
+            doDownload(html);
+          }
+        });
+      }
+      function doDownload(html) {
+        var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'VibeCheck.html';
+        a.click();
+        URL.revokeObjectURL(a.href);
+      }
+
+      const STORAGE_KEY = 'vibecoding-checklist';
+      let addCounter = 0;
+
+      function initAddCounter() {
+        getAllInputs().forEach(inp => {
+        if (inp.id && inp.id.startsWith('c-add-')) {
+          const n = parseInt(inp.id.replace('c-add-', ''), 10);
+          if (!isNaN(n) && n >= addCounter) addCounter = n + 1;
+        }
+        });
+      }
+
+        function getAllInputs() {
+        return document.querySelectorAll('.section-card input[type="checkbox"]');
+      }
+
+      function save() {
+        const inputs = getAllInputs();
+        const state = {};
+        inputs.forEach(inp => { state[inp.id] = inp.checked; });
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+      }
+
+      function load() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return;
+          const state = JSON.parse(raw);
+          getAllInputs().forEach(inp => {
+            if (state[inp.id] === true) inp.checked = true;
+          });
+        } catch (e) {}
+      }
+
+      function addRemoveButtons() {
+        document.querySelectorAll('.check-item').forEach(item => {
+          if (item.querySelector('.btn-remove')) return;
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'btn-remove';
+          btn.setAttribute('aria-label', 'Delete this item');
+          btn.textContent = 'Delete';
+          item.appendChild(btn);
+        });
+      }
+
+      function ensureSectionClearButton(sectionEl) {
+        if (!sectionEl || sectionEl.querySelector('.section-header')) return;
+        const h2 = sectionEl.querySelector('h2.section-title');
+        if (!h2) return;
+        const header = document.createElement('div');
+        header.className = 'section-header';
+        h2.parentNode.insertBefore(header, h2);
+        header.appendChild(h2);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'btn-clear-section';
+        btn.textContent = 'Clear';
+        btn.setAttribute('aria-label', 'Clear checks in this section');
+        header.appendChild(btn);
+      }
+
+      function addSectionClearButtons() {
+        document.querySelectorAll('.section-card').forEach(ensureSectionClearButton);
+      }
+
+      function getSectionOrderFromNav() {
+        const nav = document.getElementById('quickNav');
+        if (!nav) return [];
+        return Array.from(nav.querySelectorAll('a[data-section-id]')).map(a => a.getAttribute('data-section-id'));
+      }
+
+      function syncSectionOrderFromNav() {
+        const order = getSectionOrderFromNav();
+        if (order.length === 0) return;
+        const main = document.querySelector('.main');
+        if (!main) return;
+        order.forEach((id, index) => {
+          const card = document.getElementById(id);
+          if (card) main.appendChild(card);
+        });
+        order.forEach((id, index) => {
+          const num = index + 1;
+          const card = document.getElementById(id);
+          if (!card) return;
+          const numSpan = card.querySelector('.section-title .num');
+          if (numSpan) numSpan.textContent = num;
+        });
+        const nav = document.getElementById('quickNav');
+        if (nav) {
+          nav.querySelectorAll('a[data-section-id]').forEach((a, index) => {
+            const label = a.querySelector('.nav-label');
+            if (label) {
+              const name = label.textContent.replace(/^\d+\s*/, '').trim();
+              label.textContent = (index + 1) + ' ' + name;
+            }
+          });
+        }
+        const sel = document.getElementById('sectionSelect');
+        if (sel) {
+          const opts = order.map(id => {
+            const opt = sel.querySelector('option[value="' + id + '"]');
+            return opt ? { id, name: opt.textContent.replace(/^\d+\s*—\s*/, '').trim(), node: opt } : null;
+          }).filter(Boolean);
+          opts.forEach((o, i) => {
+            if (o && o.node) {
+              o.node.textContent = (i + 1) + ' — ' + o.name;
+              sel.appendChild(o.node);
+            }
+          });
+        }
+        save();
+      }
+
+      function initSectionDragDrop() {
+        const nav = document.getElementById('quickNav');
+        if (!nav || typeof Sortable === 'undefined') return;
+        new Sortable(nav, {
+          animation: 200,
+          delay: 150,
+          delayOnTouchOnly: true,
+          draggable: 'a[data-section-id]',
+          ghostClass: 'sortable-ghost',
+          chosenClass: 'sortable-chosen',
+          dragClass: 'sortable-drag',
+          forceFallback: true,
+          fallbackClass: 'sortable-fallback',
+          fallbackOnBody: true,
+          swapThreshold: 0.65,
+          onEnd: function() {
+            syncSectionOrderFromNav();
+          }
+        });
+      }
+      initSectionDragDrop();
+
+      function addNewItem(sectionId, text) {
+        const section = document.getElementById(sectionId);
+        if (!section || !text.trim()) return;
+        const id = 'c-add-' + (addCounter++);
+        const div = document.createElement('div');
+        div.className = 'check-item';
+        div.innerHTML = '<input type="checkbox" id="' + id + '"><label for="' + id + '">' + escapeHtml(text.trim()) + '</label>';
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'btn-remove';
+        btn.setAttribute('aria-label', 'Delete this item');
+        btn.textContent = 'Delete';
+        div.appendChild(btn);
+        section.appendChild(div);
+        const inp = div.querySelector('input');
+        inp.addEventListener('change', save);
+        save();
+      }
+
+      function escapeHtml(s) {
+        const div = document.createElement('div');
+        div.textContent = s;
+        return div.innerHTML;
+      }
+
+      initAddCounter();
+      addRemoveButtons();
+      addSectionClearButtons();
+      document.querySelectorAll('.prompt-box').forEach(el => el.setAttribute('contenteditable', 'true'));
+      getAllInputs().forEach(inp => {
+        inp.addEventListener('change', save);
+      });
+      load();
+
+      document.body.addEventListener('click', (e) => {
+        const removeBtn = e.target.closest('.btn-remove');
+        if (removeBtn) {
+          e.preventDefault();
+          e.stopPropagation();
+          const item = removeBtn.closest('.check-item');
+          if (item) { item.remove(); save(); }
+          return;
+        }
+        const clearBtn = e.target.closest('.btn-clear-section');
+        if (clearBtn) {
+          e.preventDefault();
+          e.stopPropagation();
+          const card = clearBtn.closest('.section-card');
+          if (card) {
+            card.querySelectorAll('input[type="checkbox"]').forEach(inp => { inp.checked = false; });
+            save();
+          }
+          return;
+        }
+      });
+
+      document.getElementById('btnAddItem').addEventListener('click', () => {
+      const sectionId = document.getElementById('sectionSelect').value;
+      const text = document.getElementById('newItemText').value;
+      addNewItem(sectionId, text);
+      document.getElementById('newItemText').value = '';
+      document.getElementById('newItemText').focus();
+    });
+
+    function getNextSectionNum() {
+      const cards = document.querySelectorAll('.section-card[id^="s"]');
+      let max = 0;
+      cards.forEach(el => {
+        const n = parseInt((el.id || '').replace('s', ''), 10);
+        if (!isNaN(n) && n > max) max = n;
+      });
+      return max + 1;
+    }
+
+    document.getElementById('btnAddSection').addEventListener('click', () => {
+      const name = document.getElementById('newSectionName').value.trim();
+      const emoji = document.getElementById('newSectionEmoji').value;
+      if (!name) return;
+      const num = getNextSectionNum();
+      const sectionId = 's' + num;
+      const main = document.querySelector('.main');
+      const section = document.createElement('section');
+      section.className = 'section-card glass';
+      section.id = sectionId;
+      section.innerHTML = '<h2 class="section-title"><span class="num">' + num + '</span> ' + emoji + ' ' + escapeHtml(name) + '</h2>';
+      main.appendChild(section);
+      ensureSectionClearButton(section);
+      const nav = document.getElementById('quickNav');
+      const link = document.createElement('a');
+      link.href = '#' + sectionId;
+      link.setAttribute('draggable', 'false');
+      link.setAttribute('data-section-id', sectionId);
+      link.innerHTML = '<span class="nav-drag-handle" draggable="true" aria-label="Drag to reorder">⋮⋮</span><span class="nav-emoji">' + emoji + '</span><span class="nav-label">' + num + ' ' + escapeHtml(name) + '</span>';
+      nav.appendChild(link);
+      const opt = document.createElement('option');
+      opt.value = sectionId;
+      opt.textContent = num + ' — ' + name;
+      document.getElementById('sectionSelect').appendChild(opt);
+      document.getElementById('newSectionName').value = '';
+      document.getElementById('newSectionName').focus();
+    });
+
+    document.getElementById('newItemText').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        document.getElementById('btnAddItem').click();
+      }
+    });
+
+      document.body.addEventListener('click', (e) => {
+        if (e.target.classList.contains('copy-prompt-btn')) {
+          const pre = e.target.previousElementSibling;
+          if (pre && pre.classList.contains('prompt-box')) {
+            navigator.clipboard.writeText(pre.textContent).then(() => { e.target.textContent = 'Copied!'; setTimeout(() => { e.target.textContent = 'Copy'; }, 1500); });
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
