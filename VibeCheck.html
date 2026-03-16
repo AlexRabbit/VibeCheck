@@ -2420,7 +2420,13 @@ Prepare Play Store: app bundle, signing, ProGuard for my Android app.</pre><butt
           e.preventDefault();
           e.stopPropagation();
           const item = removeBtn.closest('.check-item');
-          if (item) { item.remove(); save(); }
+          if (item) {
+            var itemLabel = item.querySelector('label');
+            var itemText = itemLabel ? itemLabel.textContent.trim() : 'this checklist item';
+            if (!confirm('Delete checklist item?\n\n' + itemText)) return;
+            item.remove();
+            save();
+          }
           return;
         }
         const clearBtn = e.target.closest('.btn-clear-section');
@@ -2440,6 +2446,9 @@ Prepare Play Store: app bundle, signing, ProGuard for my Android app.</pre><butt
           e.stopPropagation();
           const card = deleteSectionBtn.closest('.section-card');
           if (!card) return;
+          var sectionTitleEl = card.querySelector('.section-title');
+          var sectionTitle = sectionTitleEl ? sectionTitleEl.textContent.replace(/\s+/g, ' ').trim() : 'this section';
+          if (!confirm('Delete whole section?\n\n' + sectionTitle + '\n\nThis will remove all checklist items and prompts in this section.')) return;
           var sectionId = card.id;
           if (!sectionId) return;
           card.remove();
