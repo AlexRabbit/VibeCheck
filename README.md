@@ -2,7 +2,7 @@ If this helped you, consider starring the repo ⭐
 
 ---
 
-# ✨ VibeCheck
+# ✨ VibeCheck - https://alexrabbit.github.io/VibeCheck/
 
 <p align="center">
   <strong>A master checklist for vibecoding</strong><br>
